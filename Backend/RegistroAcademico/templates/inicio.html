@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Principal</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    {% load static %}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link href="{% static 'css/inicio.css' %}" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Sistema Académico del colegio Bautista Camino de Vida</h1>
+        <div class="row mt-4">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Inscripción de Asignaturas</h5>
+                        <p class="card-text">Gestiona la inscripción de asignaturas de los estudiantes.</p>
+                        <a href="inscripcion.html" class="btn btn-primary">Ir a Inscripción</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Estudiantes</h5>
+                        <p class="card-text">Información de los estudiantes.</p>
+                        <a href="listar.html" class="btn btn-primary">Ir a Listado de Estudiantes</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Registro de Notas</h5>
+                        <p class="card-text">Gestiona las calificaciones de los estudiantes.</p>
+                        <a href="{% url 'notas' %}" class="btn btn-primary">Ir a Registro de Notas</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Asignación de Aulas</h5>
+                        <p class="card-text">Asignación de aulas y docentes a los grupos.</p>
+                        <a href="/asignacion" class="btn btn-primary">Ir a Asignación</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Consulta de Notas</h5>
+                        <p class="card-text">Consulta las notas de los estudiantes.</p>
+                        <a href="consultasnotas.html" class="btn btn-primary">Ir a Consulta de Notas</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Otro Título</h5>
+                        <p class="card-text">Descripción de la nueva sección.</p>
+                        <a href="otra_seccion.html" class="btn btn-primary">Ir a Otra Sección</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <p>&copy; Colegio Bautista Camino de Vida</p>
+    </footer>
+
+    {% if messages %}
+    {% for m in messages %}
+    <script>
+        Swal.fire({
+            title: "{% if m.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Error de inicio de sesión{% else %}¡Bienvenido!{% endif %}",
+            text: "{{ m }}",
+            icon: "{% if m.level == DEFAULT_MESSAGE_LEVELS.ERROR %}error{% elif m.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}success{% else %}info{% endif %}"
+        });
+    </script>
+    {% endfor %}
+    {% endif %}
+</body>
+
+</html>

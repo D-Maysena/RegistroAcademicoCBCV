@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Notas - Boletín Estudiantil</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    {% load static %}
+    <link href="{% static 'css/notas.css' %}" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
+<body>
+    <div class="container">
+        <h1 class="mt-5">Registro de Notas - Boletín Estudiantil</h1>
+
+        <div class="boletin-container">
+            <form action="{% url 'notas' %}" method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                    {{form}}
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Parcial 1</th>
+                            <th>Parcial 2</th>
+                            <th>Parcial 3</th>
+                            <th>Parcial 4</th>
+                            <th>Nota Final</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="horizontal-form">
+                            <td class="parcial1-content" >
+
+                            </td>
+                            <td class="parcial2-content" >
+
+                            </td>
+
+                            <td  class="parcial3-content"  >
+                            
+                            </td>
+
+                            <td  class="parcial4-content" >
+                            
+                            </td>
+                            
+                            <td  class="notafinal-content"  >
+                            
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <button type="submit" class="btn btn-primary btn-block">Registrar Notas</button>
+            </form>
+        </div>
+    </div>
+    <script src="{% static 'js/actualizar_estudiantes.js' %}"></script>
+    <script src="{% static 'js/cargar_Asignaturas.js' %}"></script>
+</body>
+
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    {% load static %}
+    <link href="{% static 'css/login.css' %}" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+</head>
+
+<body class="min-h-screen flex items-center justify-center bg-gray-100 relative">
+
+    <!-- Background Image -->
+    <div class="bg-image"></div>
+
+    <!-- Gradient Overlay -->
+    <div class="absolute inset-0 bg-gradient-to-b from-blue-500 via-purple-500 to-indigo-500 opacity-50"></div>
+
+    <!-- Login Card -->
+    <div class="relative bg-white p-10 rounded-lg shadow-xl w-full max-w-md space-y-6">
+
+        <!-- Header -->
+
+        <img src="{% static 'images/Logo.jpeg' %}" alt="Logo" class="logo">
+        <h2 class="text-3xl font-bold text-right text-blue-800">Sistema De Registro Academico <tr></tr> Del Colegio
+            Bautista Camino De Vida</h2>
+        <p class="text-center text-gray-600">Sign in to your account</p>
+
+
+        {% if messages %}
+        {% for m in messages %}
+        <script>
+            Swal.fire({
+                title: "{% if m.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Error de inicio de sesión{% else %}Inicio de sesión{% endif %}",
+                text: "{{ m }}",
+                icon: "{% if m.level == DEFAULT_MESSAGE_LEVELS.ERROR %}error{% elif m.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}success{% else %}info{% endif %}"
+            });
+        </script>
+        {% endfor %}
+        {% endif %}
+
+        <!-- Login Form -->
+        <form action="{% url 'login' %}" method="POST" class="space-y-6">
+            {% csrf_token %}
+            <!-- Email Input -->
+            <div>
+                <label for="email" class="block text-sm font-medium text-gray-700">Username</label>
+                <input type="text" id="username" name="username"
+                    class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+                    placeholder="userexample" required>
+            </div>
+
+            <!-- Password Input -->
+            <div>
+                <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+                <input type="password" id="password" name="password"
+                    class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+                    placeholder="••••••••" required>
+            </div>
+
+            <!-- Remember Me Checkbox -->
+            <div class="flex items-center justify-between">
+                <label class="flex items-center">
+                    <input type="checkbox"
+                        class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
+                    <span class="ml-2 text-sm text-gray-600">Remember me</span>
+                </label>
+                <a href="#" class="text-sm text-indigo-600 hover:text-indigo-500">Forgot password?</a>
+            </div>
+
+            <!-- Login Button -->
+            <div>
+                <button type="submit"
+                    class="w-full bg-indigo-600 text-white py-3 rounded-md text-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    Sign In
+                </button>
+            </div>
+        </form>
+
+        <!-- Sign Up Link -->
+        <p class="text-center text-sm text-gray-600">Don't have an account? <a href="inicio.html"
+                class="text-indigo-600 hover:text-indigo-500">Sign up</a></p>
+    </div>
+</body>
+
+</html>

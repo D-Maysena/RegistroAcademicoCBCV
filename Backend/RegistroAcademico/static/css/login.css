@@ -1,0 +1,19 @@
+.logo{
+    position: absolute; /* Posiciona la imagen */
+    top: 0; /* Alinea en la parte superior */
+    left: 0; /* Alinea a la izquierda */
+    width: 90px; /* Ajusta el tamaño */
+    height: auto; /* Mantiene la proporción */
+
+}
+.bg-image {
+    background-image: url('/static/images/imagen.jpg');
+    background-size: contain; /* Asegura que la imagen esté contenida */
+    background-repeat: no-repeat; /* Evita que la imagen se repita */
+    position: fixed; /* Mantiene la imagen fija en la esquina */
+    top: 0; /* Alinea en la parte superior */
+    left: 0; /* Alinea en la parte izquierda */
+    width: 100%; /* Ocupa todo el ancho de la ventana */
+    height: 100%; /* Ocupa toda la altura de la ventana */
+    z-index: -1; /* Asegura que la imagen esté detrás del contenido */
+}
