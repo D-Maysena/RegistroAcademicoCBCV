@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect
+from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth import authenticate
 from django.http import HttpResponse
 from django.contrib import messages
-from .forms import SeleccionGrupoAsignatura
+from .forms import SeleccionGrupoAsignatura, AgregarEstudianteForm
 from .models import Estudiante, Inscribe, Registronotas, Asignatura
 from django.http import JsonResponse
 from datetime import datetime
@@ -26,7 +27,6 @@ def inicio(request):
 
 def registrarNotas(request):
     form = SeleccionGrupoAsignatura()
-    print("form")
     
     if request.method == "POST":
         form1 = SeleccionGrupoAsignatura(request.POST)
@@ -40,7 +40,7 @@ def registrarNotas(request):
             parcial3 = request.POST.get('parcial3', '').strip()
             parcial4 = request.POST.get('parcial4', '').strip()
             notafinal = request.POST.get('notafinal', '').strip()
-
+           
             # Convertir a int solo si no están vacíos
             if parcial1:
                 parcial1 = float(parcial1)
@@ -78,38 +78,34 @@ def registrarNotas(request):
                 # Solo actualizamos los campos que no estén vacíos
                 defaults = {}
 
-                if parcial1 is not None:
-                    defaults['parcial1'] = parcial1
-                if parcial2 is not None:
-                    defaults['parcial2'] = parcial2
-                if parcial3 is not None:
-                    defaults['parcial3'] = parcial3
-                if parcial4 is not None:
-                    defaults['parcial4'] = parcial4
-                if notafinal is not None:
-                    defaults['notafinal'] = notafinal
+                defaults['parcial1'] = parcial1
+                defaults['parcial2'] = parcial2
+                defaults['parcial3'] = parcial3
+                defaults['parcial4'] = parcial4
+                defaults['notafinal'] = notafinal
 
                 if defaults:
 
-                    busqueda = Registronotas.objects.get(codestudiante=estudiante, codigoasignatura=asignatura)
+                    #busqueda = Registronotas.objects.get(codestudiante=estudiante, codigoasignatura=asignatura)
+                    
                     print("busqueda")
-                    print(busqueda)
+                    #print(busqueda.codestudiante)
                     # Intenta actualizar o crear el registro utilizando `update_or_create`
                     registro, creado = Registronotas.objects.update_or_create(
-                        codestudiante=busqueda.codestudiante,
-                        codigoasignatura=busqueda.codigoasignatura,
+                        codestudiante=estudiante,
+                        codigoasignatura=asignatura,
                         periodoacademico=año_actual,
                         defaults=defaults
                     )
-                    print("registro")
-                    print(registro)
                     if creado:
-                        print("El registro no existía y se ha creado uno nuevo.")
+                        messages.success(request, "Registro Creado")
+                        
                     else:
-                        print("El registro existía y ha sido actualizado.")
+                        messages.success(request, "Registro Actualizado")
         
-                print("Operación completada exitosamente")
             except Exception as e:
+                messages.error(request, "Ha ocurrido un error")
+                
                 print(f"Error: {e}")
         
         return render(request, "./notas.html", {
@@ -166,8 +162,61 @@ def cargarNotas(request):
     }
     for notas in notasEstudiante
   ]
-
-  print("yepa")
-  print(notas_data)
   return JsonResponse(notas_data, safe=False)
   
+def EstudiantesAPI(request):
+    estudiantes = Estudiante.objects.all()
+    estudiantes_data = [
+    {
+        "codestudiante": est.codestudiante, 
+        "nombre_completo": f"{est.nombre1} {est.nombre2} {est.apellido1} {est.apellido2}",
+        "cédula": est.cedulaalumno,
+        "codigogrupo": est.codigogrupo.nombre
+
+    }
+    for est in estudiantes
+  ]
+    return JsonResponse(estudiantes_data, safe=False)
+
+def estudiantes(request):
+            return render(request, "./estudiante.html", {
+        })
+
+
+def infoEstudiante(request, codestudiante):
+  print("eeee ")
+  EstudianteInfo = Estudiante.objects.get(codestudiante=codestudiante)
+  return render(request, "./infoEstudiante.html", {
+    "Estudiante": EstudianteInfo
+        })
+
+
+def agregarEstudiante(request, codestudiante=None):
+    if codestudiante:
+        # Obtener al estudiante si se pasa el código
+        estudiante = get_object_or_404(Estudiante, codestudiante=codestudiante)
+        form = AgregarEstudianteForm(request.POST or None, instance=estudiante)
+        
+        # Si el formulario es válido, guardamos los cambios
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Estudiante actualizado con éxito")
+            return redirect('estudiantes')  # Redirige a la lista de estudiantes después de guardar
+    else:
+        # Si no se pasa un codestudiante, es un formulario de creación
+        form = AgregarEstudianteForm(request.POST or None)
+        
+        if request.method == "POST" and form.is_valid():
+            form.save()
+            messages.success(request, "Estudiante Registrado con éxito")
+            return redirect('estudiantes')  # Redirige a la lista de estudiantes después de guardar
+    return render(request, 'agregarEstudiante.html', {'form': form, 'codestudiante': codestudiante})
+  
+def eliminarEstudiante(request, codestudiante):
+    estudiante = get_object_or_404(Estudiante, codestudiante=codestudiante)
+    
+    if request.method == 'POST':
+        estudiante.delete()
+        return JsonResponse({'success': True})
+
+    return JsonResponse({'success': False}, status=400)

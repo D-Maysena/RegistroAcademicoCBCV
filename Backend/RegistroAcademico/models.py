@@ -123,34 +123,37 @@ class Horario(models.Model):
     def __str__(self):
         return f"Horario: Inicio {self.horainicio} - {self.horafin} - {self.codigogrupo}"
 
+
 class Inscribe(models.Model):
-    codestudiante = models.ForeignKey(Estudiante, on_delete=models.CASCADE, db_column='CodEstudiante', primary_key=True)  # Field name made lowercase. The composite primary key (CodEstudiante, CodigoAsignatura) found, that is not supported. The first column is selected.
-    codigoasignatura = models.ForeignKey(Asignatura, on_delete=models.CASCADE, db_column='CodigoAsignatura')  # Field name made lowercase.
-    fechainscripcion = models.DateField(db_column='FechaInscripcion')  # Field name made lowercase.
+    IdInscribe = models.AutoField(primary_key=True)  # AutoField es equivalente a un campo INT IDENTITY en SQL
+    codestudiante = models.ForeignKey(Estudiante, on_delete=models.CASCADE, db_column='CodEstudiante')
+    codigoasignatura = models.ForeignKey(Asignatura, on_delete=models.CASCADE, db_column='CodigoAsignatura')
+    fechainscripcion = models.DateField(db_column='FechaInscripcion')
 
     class Meta:
         db_table = 'Inscribe'
-     
+        unique_together = (('codestudiante', 'codigoasignatura'),)
+
     def __str__(self):
         return f"Inscribe: {self.codestudiante} - {self.codigoasignatura} - Fecha {self.fechainscripcion}"
 
 class Registronotas(models.Model):
-    codestudiante = models.OneToOneField(Estudiante, on_delete=models.CASCADE, db_column='CodEstudiante', primary_key=True)  # Field name made lowercase. The composite primary key (CodEstudiante, CodigoAsignatura, PeriodoAcademico) found, that is not supported. The first column is selected.
-    codigoasignatura = models.ForeignKey(Asignatura, on_delete=models.CASCADE, db_column='CodigoAsignatura')  # Field name made lowercase.
-    periodoacademico = models.CharField(db_column='PeriodoAcademico', max_length=20, db_collation='Modern_Spanish_CI_AS')  # Field name made lowercase.
-    parcial1 = models.DecimalField(db_column='Parcial1', max_digits=5, decimal_places=2, blank=True, null=True)  # Field name made lowercase.
-    parcial2 = models.DecimalField(db_column='Parcial2', max_digits=5, decimal_places=2, blank=True, null=True)  # Field name made lowercase.
-    parcial3 = models.DecimalField(db_column='Parcial3', max_digits=5, decimal_places=2, blank=True, null=True)  # Field name made lowercase.
-    parcial4 = models.DecimalField(db_column='Parcial4', max_digits=5, decimal_places=2, blank=True, null=True)  # Field name made lowercase.
-    notafinal = models.DecimalField(db_column='NotaFinal', max_digits=5, decimal_places=2, blank=True, null=True)  # Field name made lowercase.
+    codestudiante = models.ForeignKey(Estudiante, on_delete=models.CASCADE, db_column='CodEstudiante', primary_key=True)
+    codigoasignatura = models.ForeignKey(Asignatura, on_delete=models.CASCADE, db_column='CodigoAsignatura')
+    periodoacademico = models.CharField(db_column='PeriodoAcademico', max_length=20, db_collation='Modern_Spanish_CI_AS')
+    parcial1 = models.DecimalField(db_column='Parcial1', max_digits=5, decimal_places=2, blank=True, null=True)
+    parcial2 = models.DecimalField(db_column='Parcial2', max_digits=5, decimal_places=2, blank=True, null=True)
+    parcial3 = models.DecimalField(db_column='Parcial3', max_digits=5, decimal_places=2, blank=True, null=True)
+    parcial4 = models.DecimalField(db_column='Parcial4', max_digits=5, decimal_places=2, blank=True, null=True)
+    notafinal = models.DecimalField(db_column='NotaFinal', max_digits=5, decimal_places=2, blank=True, null=True)
 
     class Meta:
-        managed = False
         db_table = 'RegistroNotas'
         unique_together = (('codestudiante', 'codigoasignatura', 'periodoacademico'),)
 
     def __str__(self):
         return f"Registro Notas: {self.codestudiante} - {self.codigoasignatura}"
+
 
 class Turno(models.Model):
     codigoturno = models.IntegerField(db_column='CodigoTurno', primary_key=True)  # Field name made lowercase.

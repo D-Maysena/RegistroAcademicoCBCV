@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Principal</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    {% load static %}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link href="{% static 'css/inicio.css' %}" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>Estudiantes </h1>
+        <a class="btn btn-primary mb-3" href="{% url 'agregarEstudiante' %}">Agregar Estudiante</a>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Código</th>
+                    <th>Nombre Completo</th>
+                    <th>Cédula</th>
+                    <th>Grupo</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="container-estudiantes"  >
+
+            </tbody>
+        </table>
+    </div>
+    <footer>
+        <p>&copy; Colegio Bautista Camino de Vida</p>
+    </footer>
+    {% if messages %}
+    {% for m in messages %}
+    <script>
+        Swal.fire({
+            title: "{% if m.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Error {% else %}Registrado{% endif %}",
+            text: "{{ m }}",
+            icon: "{% if m.level == DEFAULT_MESSAGE_LEVELS.ERROR %}error{% elif m.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}success{% else %}info{% endif %}"
+        });
+        </script>
+    {% endfor %}
+    {% endif %}
+    <input type="hidden" id="urlInfoEstudiante" value="{% url 'infoEstudiante' codestudiante='yepa' %}">
+    <input type="hidden" id="agregarEstudianteEditar" value="{% url 'agregarEstudianteEditar' codestudiante='yepa' %}">
+    <input type="hidden" id="urlEstudiantesEliminar" value="{% url 'eliminarEstudiante' codestudiante='yepa' %}">
+    <input type="hidden" id="csrf_token" value="{{ csrf_token }}">
+    <script src="{% static 'js/estudiante-view/estudiantes.js' %}"></script>
+</body>
+</html>

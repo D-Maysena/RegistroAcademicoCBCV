@@ -59,8 +59,21 @@
             </form>
         </div>
     </div>
-    <script src="{% static 'js/actualizar_estudiantes.js' %}"></script>
-    <script src="{% static 'js/cargar_Asignaturas.js' %}"></script>
+    <script src="{% static 'js/notas-view/actualizar_estudiantes.js' %}"></script>
+    <script src="{% static 'js/notas-view/cargar_Asignaturas.js' %}"></script>
+
+    {% if messages %}
+    {% for m in messages %}
+    <script>
+        Swal.fire({
+            title: "{% if m.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Error de inicio de sesión{% else %}!La nota se actualizó correctamente!{% endif %}",
+            text: "{{ m }}",
+            icon: "{% if m.level == DEFAULT_MESSAGE_LEVELS.ERROR %}error{% elif m.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}success{% else %}info{% endif %}"
+        });
+    </script>
+    {% endfor %}
+    {% endif %}
+
 </body>
 
 </html>

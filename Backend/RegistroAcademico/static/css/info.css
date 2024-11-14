@@ -1,0 +1,36 @@
+body {
+    background-color: white;
+    color: #1b059c;
+    min-height: 100vh; /* Asegura que el contenido ocupe al menos la altura de la pantalla */
+    display: flex;
+    flex-direction: column;
+}
+h1 {
+    color: #1b059c;
+    border: 2px solid #1b059c;
+    padding: 10px;
+    text-align: center;
+}
+footer {
+    background-color: #1b059c;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    margin-top: auto; /* Asegura que el footer se mantenga al final */
+}
+.card {
+    border: 2px solid #1b059c;
+}
+.card-header {
+    background-color: #1b059c;
+    color: white;
+}
+/* Estilos personalizados para botones */
+.btn-custom {
+    background-color: #1b059c; /* Color de fondo */
+    color: white; /* Color del texto */
+}
+.btn-custom:hover {
+    background-color: #15408b; /* Color al pasar el cursor */
+    color: white; /* Color del texto */
+}

@@ -1,0 +1,26 @@
+body {
+    background-color: white;
+    color: #1b059c;
+}
+h1 {
+    color: #1b059c;
+    border: 2px solid #1b059c;
+    padding: 10px;
+    text-align: center;
+}
+.btn {
+    background-color: #1b059c;
+    color: white;
+}
+.btn:hover {
+    background-color: #1a048c;
+}
+footer {
+    background-color: #1b059c;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}

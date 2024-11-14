@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+    {% if codeestudiante %}
+        Editar
+    {% else %}    
+    Agregar
+    {% endif %}
+    Estudiante
+</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    {% load static %}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link href="{% static 'css/editar.css' %}" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5 form-container">
+        <h1 class="text-center">{% if codestudiante %}Editar{% else %}Agregar{% endif %} Estudiante</h1>
+        <form action="{% if codestudiante %}{% url 'agregarEstudianteEditar' codestudiante %}{% else %}{% url 'agregarEstudiante' %}{% endif %}" method="POST">
+            {% csrf_token %}
+            {% for field in form %}
+                <div class="form-group">
+                    {{ field.label_tag }}
+                    {{ field }}
+                    <div class="text-danger">
+                        {{ field.errors }}
+                    </div>
+                </div>
+            {% endfor %}
+            <button type="submit" class="btn btn-submit">{% if codestudiante %}Guardar Cambios{% else %}Agregar Estudiante{% endif %}</button>
+        </form>
+    </div>
+    <footer class="text-center mt-4">
+        <p>&copy; Colegio Bautista Camino de Vida</p>
+    </footer>
+    {% if messages %}
+    {% for m in messages %}
+    <script>
+        Swal.fire({
+            title: "{% if m.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Error {% else %}Registrado{% endif %}",
+            text: "{{ m }}",
+            icon: "{% if m.level == DEFAULT_MESSAGE_LEVELS.ERROR %}error{% elif m.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}success{% else %}info{% endif %}"
+        });
+    </script>
+    {% endfor %}
+    {% endif %}
+</body>
+</html>

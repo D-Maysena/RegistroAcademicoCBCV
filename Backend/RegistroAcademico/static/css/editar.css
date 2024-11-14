@@ -1,0 +1,58 @@
+/* editar.css */
+
+body {
+    background-color: #f0f8ff;
+    color: #1b059c;
+    font-family: Arial, sans-serif;
+}
+
+.form-container {
+    max-width: 600px;
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(27, 5, 156, 0.3);
+    margin-top: 50px;
+}
+
+h1 {
+    color: #1b059c;
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    font-weight: bold;
+    color: #1b059c;
+}
+
+.form-control {
+    border: 1px solid #1b059c;
+    border-radius: 5px;
+    color: #1b059c;
+}
+
+.form-control:focus {
+    border-color: #1b059c;
+    box-shadow: 0px 0px 5px rgba(27, 5, 156, 0.3);
+}
+
+.btn-submit {
+    background-color: #1b059c;
+    color: #ffffff;
+    font-weight: bold;
+    border: none;
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-submit:hover {
+    background-color: #12047b;
+}
+
+footer {
+    color: #1b059c;
+    font-size: 0.9rem;
+}

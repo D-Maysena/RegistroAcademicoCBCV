@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ver Estudiante</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> 
+    {% load static %}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link href="{% static 'css/info.css' %}" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>Detalles del Estudiante</h1>
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0">Información Básica</h5>
+            </div>
+            <div class="card-body">
+                <p><strong>Código de Estudiante:</strong> {{Estudiante.codestudiante}}</p>
+                <p><strong>Nombre:</strong> {{Estudiante.nombre1}} {{Estudiante.nombre2}} {{Estudiante.apellido1}} {{Estudiante.apellido2}}</p>
+                <p><strong>Cédula:</strong> {{Estudiante.cedulaalumno}}</p>
+                <p><strong>Grupo:</strong> {{Estudiante.codigogrupo}}</p>
+            </div>
+        </div>
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0">Información Adicional</h5>
+            </div>
+            <div class="card-body">
+                <p><strong>Fecha de Nacimiento:</strong> {{Estudiante.fechanac}}</p>
+                <p><strong>Edad:</strong> {{Estudiante.fechanac}}</p>
+                <p><strong>Sexo:</strong> {{Estudiante.sexo}}</p>
+                <p><strong>Dirección:</strong> {{Estudiante.direccion}}</p>
+            </div>
+        </div>
+        <div class="text-center">
+            <a href="{% url 'agregarEstudianteEditar' Estudiante.codestudiante %}" class="btn"style="background-color: #1b059c; color: white;">Editar Estudiante</a>
+            <a href="{% url 'estudiantes' %}" class="btn btn-secondary"style="background-color: #1b059c; color: white;">Volver a Listado</a>
+        </div>
+    </div>
+    <footer>
+        <p>&copy; Colegio Bautista Camino de Vida</p>
+    </footer>
+
+</body>
+</html>
