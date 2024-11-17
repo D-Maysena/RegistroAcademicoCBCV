@@ -12,11 +12,12 @@
 </head>
 
 <body>
+    
     <div class="container">
         <h1>Sistema Académico del colegio Bautista Camino de Vida</h1>
-        <div class="row mt-4">
-            <div class="col-md-4">
-                <div class="card">
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            <div class="col">
+                <div class="card h-100">
                     <div class="card-body">
                         <h5 class="card-title">Inscripción de Asignaturas</h5>
                         <p class="card-text">Gestiona la inscripción de asignaturas de los estudiantes.</p>
@@ -24,8 +25,8 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="card">
+            <div class="col">
+                <div class="card h-100">
                     <div class="card-body">
                         <h5 class="card-title">Estudiantes</h5>
                         <p class="card-text">Información de los estudiantes.</p>
@@ -33,8 +34,8 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="card">
+            <div class="col">
+                <div class="card h-100">
                     <div class="card-body">
                         <h5 class="card-title">Registro de Notas</h5>
                         <p class="card-text">Gestiona las calificaciones de los estudiantes.</p>
@@ -42,11 +43,9 @@
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="row mt-4">
-            <div class="col-md-4">
-                <div class="card">
+            <div class="col">
+                <div class="card h-100">
                     <div class="card-body">
                         <h5 class="card-title">Asignación de Aulas</h5>
                         <p class="card-text">Asignación de aulas y docentes a los grupos.</p>
@@ -54,8 +53,8 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="card">
+            <div class="col" > 
+                <div class="card h-100">
                     <div class="card-body">
                         <h5 class="card-title">Consulta de Notas</h5>
                         <p class="card-text">Consulta las notas de los estudiantes.</p>
@@ -68,11 +67,83 @@
                     <div class="card-body">
                         <h5 class="card-title">Docentes</h5>
                         <p class="card-text">Información de los docentes.</p>
-                        <a href="{% url 'gestionDocentes' %}" class="btn btn-primary">Ir a Información de Docentes</a>
+                        <a href="{% url 'gestionDocentes' %}" class="btn btn-primary">Ir a Información de
+                            Docentes</a>
                     </div>
                 </div>
             </div>
+            <div class="col">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Inscribir Grupos</h5>
+                        <p class="card-text">Inscribe los grupos.</p>
+                        <a href="grupo.html" class="btn btn-primary">Grupos</a>
+                    </div>
+                </div>
+            </div>
+            <!-- New Function 2 -->
+            <div class="col">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Registra Horarios</h5>
+                        <p class="card-text">Registra horarios.</p>
+                        <a href="registrar_horario.html" class="btn btn-primary">Horarios</a>
+                    </div>
+                </div>
+            </div>
+            <!-- New Function 3 -->
+            <div class="col">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Asignar Docente</h5>
+                        <p class="card-text">Asignale un docente a un grupo.</p>
+                        <a href="AsigDocenetes.html" class="btn btn-primary">Asigna Docentes</a>
+                    </div>
+                </div>
+            </div>
+            <!-- New Function 4 -->
+            <div class="col">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Horarios</h5>
+                        <p class="card-text">Consulta los Horarios Disponibles.</p>
+                        <a href="horarios.html" class="btn btn-primary">Horarios Disponibles</a>
+                    </div>
+                </div>
+            </div>
+            <!-- New Function 5 -->
+            <div class="col">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Turno</h5>
+                        <p class="card-text">Registra Turnos</p>
+                        <a href="turno.html" class="btn btn-primary">Turnos Disponibles</a>
+                    </div>
+                </div>
+            </div>
+            <!-- New Function 6 -->
+            <div class="col">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Registro de Tutores</h5>
+                        <p class="card-text">Registra y gestiona la información de los tutores.</p>
+                        <a href="tutor.html" class="btn btn-primary">Ir a Registro de Tutores</a>
+                    </div>
+                </div>
+            </div>
+            <!-- New Function 7 -->
+            <div class="col">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Registro De Aulas</h5>
+                        <p class="card-text">Registra aulas para tus estudiantes.</p>
+                        <a href="registrar_aula.html" class="btn btn-primary">Ir a </a>
+                    </div>
+                </div>
+            </div>
+
         </div>
+
     </div>
     <footer>
         <p>&copy; Colegio Bautista Camino de Vida</p>
@@ -80,27 +151,27 @@
 
     {% if messages %}
     {% for m in messages %}
-        <script>
-            var message = "{{ m.message|escapejs }}";  // Escape para manejar caracteres especiales
-            var title = "";
-            var icon = "";
+    <script>
+        var message = "{{ m.message|escapejs }}";  // Escape para manejar caracteres especiales
+        var title = "";
+        var icon = "";
 
-            if (message === "Aula asignada con éxito.") {
-                title = "Aula asignada con éxito.";
-                icon = "success";
-            } else {
-                title = "{% if m.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Error de inicio de sesión{% else %}¡Bienvenido!{% endif %}";
-                icon = "{% if m.level == DEFAULT_MESSAGE_LEVELS.ERROR %}error{% elif m.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}success{% else %}info{% endif %}";
-            }
+        if (message === "Aula asignada con éxito.") {
+            title = "Aula asignada con éxito.";
+            icon = "success";
+        } else {
+            title = "{% if m.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Error de inicio de sesión{% else %}¡Bienvenido!{% endif %}";
+            icon = "{% if m.level == DEFAULT_MESSAGE_LEVELS.ERROR %}error{% elif m.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}success{% else %}info{% endif %}";
+        }
 
-            Swal.fire({
-                title: title,
-                text: message,
-                icon: icon
-            });
-        </script>
+        Swal.fire({
+            title: title,
+            text: message,
+            icon: icon
+        });
+    </script>
     {% endfor %}
-{% endif %}
+    {% endif %}
 
 
 </body>

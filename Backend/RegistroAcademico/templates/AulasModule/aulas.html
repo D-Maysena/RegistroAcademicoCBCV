@@ -12,6 +12,7 @@
 </head>
 
 <body>
+    {% include 'layoutNav.html' %}
     <div class="container mt-5 form-container">
         <h1 class="text-center">Asignar Aula</h1>
         <form action="{% url 'inscripcionAula' %}" method="POST">
@@ -19,7 +20,9 @@
             {{form}}
 
             <!-- Botón de envío -->
-            <button type="submit" class="btn btn-submit">Registrar Aula</button>
+            <button type="submit" class="btn btn-submit" style="margin-top: 20px;background-color: #1b059c; color: white;" >Registrar Aula</button>
+            <a type="button" class="btn btn-primary btn-block" style="margin-top: 20px;  background-color: #1b059c; color: white;" href="{% url 'inicio' %}" >Cancelar</a>
+            
         </form>
     </div>
     <footer class="text-center mt-4">

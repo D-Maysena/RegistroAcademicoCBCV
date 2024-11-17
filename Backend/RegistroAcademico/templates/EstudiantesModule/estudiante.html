@@ -10,9 +10,11 @@
     <link href="{% static 'css/inicio.css' %}" rel="stylesheet">
 </head>
 <body>
+    {% include 'layoutNav.html' %}
+
     <div class="container mt-5">
         <h1>Estudiantes </h1>
-        <a class="btn btn-primary mb-3" href="{% url 'agregarEstudiante' %}">Agregar Estudiante</a>
+        <a class="btn btn-primary mb-3" href="{% url 'agregarEstudiante' %}" style="background-color: #1b059c; color: white;" >Agregar Estudiante</a>
         <table class="table table-striped">
             <thead>
                 <tr>

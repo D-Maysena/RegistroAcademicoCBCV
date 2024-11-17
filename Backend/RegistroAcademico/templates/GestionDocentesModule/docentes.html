@@ -11,6 +11,8 @@
     <link href="{% static 'css/docente.css' %}" rel="stylesheet">
 </head>
 <body>
+    {% include 'layoutNav.html' %}
+
     <div class="container">
         <h1 class="mt-5 text-center">Gestión de Docentes</h1>
         <a href="{% url 'agregarDocente' %}" class="btn btn-success mb-3">Agregar Docente</a>

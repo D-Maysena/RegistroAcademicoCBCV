@@ -19,6 +19,7 @@
     
 </head>
 <body>
+    {% include 'layoutNav.html' %}
     <div class="container">
         <h1 class="mt-5">{% if ceduladocente %}Editar{% else %}Agregar{% endif %} Docente</h1>
         <form action="{% if ceduladocente %}{% url 'agregarDocenteEditar' ceduladocente %}{% else %}{% url 'agregarDocente' %}{% endif %}" method="POST">
@@ -32,7 +33,7 @@
                 </div>
             </div>
         {% endfor %}
-            <button type="submit" class="btn btn-primary">{% if ceduladocente %}Guardar Cambios{% else %}Agregar Docente{% endif %}</button>
+            <button type="submit" class="btn btn-primary" style="background-color: #1b059c; color: white;" >{% if ceduladocente %}Guardar Cambios{% else %}Agregar Docente{% endif %}</button>
             <a href="{% url 'inicio' %}" class="btn" style="background-color: #1b059c; color: white;">Regresar al Inicio</a>
         </form>
     </div>

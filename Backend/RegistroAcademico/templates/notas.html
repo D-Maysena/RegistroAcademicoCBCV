@@ -12,6 +12,8 @@
 </head>
 
 <body>
+    {% include 'layoutNav.html' %}
+
     <div class="container">
         <h1 class="mt-5">Registro de Notas - Boletín Estudiantil</h1>
 
@@ -54,8 +56,9 @@
                         </tr>
                     </tbody>
                 </table>
+                <a type="button" class="btn btn-primary btn-block" style="  background-color: #1b059c; color: white;" href="{% url 'inicio' %}" >Cancelar</a>
 
-                <button type="submit" class="btn btn-primary btn-block">Registrar Notas</button>
+                <button type="submit" class="btn btn-primary btn-block" style=" background-color: #1b059c; color: white;"" >Registrar Notas</button>
             </form>
         </div>
     </div>

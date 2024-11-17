@@ -17,6 +17,8 @@
     <link href="{% static 'css/editar.css' %}" rel="stylesheet">
 </head>
 <body>
+    {% include 'layoutNav.html' %}
+
     <div class="container mt-5 form-container">
         <h1 class="text-center">{% if codestudiante %}Editar{% else %}Agregar{% endif %} Estudiante</h1>
         <form action="{% if codestudiante %}{% url 'agregarEstudianteEditar' codestudiante %}{% else %}{% url 'agregarEstudiante' %}{% endif %}" method="POST">
@@ -30,7 +32,9 @@
                     </div>
                 </div>
             {% endfor %}
-            <button type="submit" class="btn btn-submit">{% if codestudiante %}Guardar Cambios{% else %}Agregar Estudiante{% endif %}</button>
+            <button type="submit" class="btn btn-submit" style="background-color: #1b059c; color: white;">{% if codestudiante %}Guardar Cambios{% else %}Agregar Estudiante{% endif %}</button>
+            <a type="button" class="btn btn-primary btn-block" style="margin-top: 30px;  background-color: #1b059c; color: white;" href="{% url 'estudiantes' %}" >Cancelar</a>
+                
         </form>
     </div>
     <footer class="text-center mt-4">

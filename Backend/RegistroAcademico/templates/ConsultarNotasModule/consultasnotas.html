@@ -12,6 +12,8 @@
 </head>
 
 <body>
+    {% include 'layoutNav.html' %}
+    
     <div class="container">
         <h1 class="mt-5">Consulta de Notas</h1>
 
@@ -22,7 +24,7 @@
                 <input type="text" class="form-control" id="codEstudiante" name="codestudiante"
                     placeholder="Ingrese su código de estudiante" required>
             </div>
-            <button type="submit" class="btn btn-primary">Consultar</button>
+            <button type="submit" class="btn btn-primary" style="background-color: #1b059c; color: white;" >Consultar</button>
         </form>
 
         <hr>

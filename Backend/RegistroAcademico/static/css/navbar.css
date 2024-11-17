@@ -1,0 +1,84 @@
+/* Estilo general del navbar */
+.navbar-custom {
+    background-color: #1b059c; /* Azul */
+    border: 2px solid #1b059c; /* Bordes azules */
+}
+
+/* Estilo del logo */
+.navbar-brand img {
+    height: 50px; /* Tamaño del logo */
+    width: auto;
+    border-radius: 5px; /* Opcional: Bordes redondeados */
+}
+
+/* Estilo de los cuadros */
+.navbar-nav .nav-item {
+    border: 2px solid #1b059c; /* Bordes entre los cuadros */
+    background-color: #1b059c; /* Fondo azul */
+    margin-right: -2px; /* Para eliminar separación entre cuadros */
+    text-align: center;
+}
+
+.navbar-nav .nav-item .nav-link {
+    color: #fff; /* Letras en blanco */
+    font-weight: bold;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Efectos al pasar el ratón */
+.navbar-nav .nav-item .nav-link:hover {
+    background-color: #fff; /* Fondo blanco */
+    color: #1b059c; /* Letras azules */
+}
+
+/* Separación entre cuadros con líneas */
+.navbar-nav .nav-item:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: -2px;
+    height: 100%;
+    width: 2px;
+    background-color: #fff; /* Línea blanca entre cuadros */
+}
+
+/* Estilo del ícono en Inicio */
+.nav-link .fas {
+    margin-right: 5px; /* Espaciado entre ícono y texto */
+}
+
+/* Efecto especial para CBCV */
+.brand-cbcv {
+    font-weight: bold;
+    color: #fff; /* Letras en blanco */
+    font-size: 1.5rem;
+    transition: color 0.3s ease;
+}
+
+.brand-cbcv:hover {
+    color: #00b894; /* Verde al pasar el ratón */
+}
+
+/* Asegurar que el enlace de Inicio tenga ícono y texto blancos */
+.nav-link {
+    color: #fff !important; /* Asegura que el texto del enlace sea blanco */
+    display: flex; /* Hace que el ícono y el texto se alineen */
+    align-items: center; /* Alinea verticalmente el texto y el ícono */
+    justify-content: center; /* Centra el contenido dentro del cuadro */
+    text-decoration: none; /* Elimina el subrayado */
+}
+
+.nav-link .fas {
+    color: #fff; /* El ícono también es blanco */
+    margin-right: 5px; /* Espaciado entre el ícono y el texto */
+}
+
+/* Al pasar el ratón, mantener la consistencia */
+.nav-link:hover {
+    background-color: #fff; /* Fondo blanco */
+    color: #1b059c !important; /* Texto azul */
+}
+
+.nav-link:hover .fas {
+    color: #1b059c; /* Ícono también azul al pasar el ratón */
+}
