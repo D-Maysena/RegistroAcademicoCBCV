@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Docentes</title>
+    {% load static %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <link href="{% static 'css/docente.css' %}" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1 class="mt-5 text-center">Gestión de Docentes</h1>
+        <a href="{% url 'agregarDocente' %}" class="btn btn-success mb-3">Agregar Docente</a>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Cédula</th>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Dirección</th>
+                    <th>Teléfono</th>
+                    <th>Especialidad</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="container-docentes" >
+            </tbody>
+        </table>
+        <a href="{% url 'inicio' %}" class="btn" style="background-color: #1b059c; color: white;">Regresar al Inicio</a>
+    </div>
+
+    {% if messages %}
+        {% for m in messages %}
+            <script>
+                Swal.fire({
+                    title: "{% if m.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Error {% else %}Registrado{% endif %}",
+                    text: "{{ m }}",
+                    icon: "{% if m.level == DEFAULT_MESSAGE_LEVELS.ERROR %}error{% elif m.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}success{% else %}info{% endif %}"
+                });
+            </script>
+        {% endfor %}
+    {% endif %}
+    
+    <input type="hidden" id="urlInfoDocente" value="{% url 'infoDocente' ceduladocente='yepa' %}">
+    <input type="hidden" id="agregarDocenteEditar" value="{% url 'agregarDocenteEditar' ceduladocente='yepa' %}">
+    <input type="hidden" id="urlDocentesEliminar" value="{% url 'eliminarDocente' ceduladocente='yepa' %}">
+    <input type="hidden" id="csrf_token" value="{{ csrf_token }}">
+    <script src="{% static 'js/docente-view/docentes.js' %}"></script>
+</body>
+</html>

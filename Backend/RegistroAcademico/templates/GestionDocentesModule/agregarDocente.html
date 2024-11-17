@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        {% if ceduladocente %}
+        Editar
+        {% else %}    
+        Agregar
+        {% endif %}
+        Docente
+        </title>
+    {% load static %}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+   
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="{% static 'css/agregar_docente.css' %}" rel="stylesheet">
+    
+</head>
+<body>
+    <div class="container">
+        <h1 class="mt-5">{% if ceduladocente %}Editar{% else %}Agregar{% endif %} Docente</h1>
+        <form action="{% if ceduladocente %}{% url 'agregarDocenteEditar' ceduladocente %}{% else %}{% url 'agregarDocente' %}{% endif %}" method="POST">
+            {% csrf_token %}
+            {% for field in form %}
+            <div class="form-group">
+                {{ field.label_tag }}
+                {{ field }}
+                <div class="text-danger">
+                    {{ field.errors }}
+                </div>
+            </div>
+        {% endfor %}
+            <button type="submit" class="btn btn-primary">{% if ceduladocente %}Guardar Cambios{% else %}Agregar Docente{% endif %}</button>
+            <a href="{% url 'inicio' %}" class="btn" style="background-color: #1b059c; color: white;">Regresar al Inicio</a>
+        </form>
+    </div>
+   
+</body>
+</html>

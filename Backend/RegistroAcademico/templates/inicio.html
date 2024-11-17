@@ -20,7 +20,7 @@
                     <div class="card-body">
                         <h5 class="card-title">Inscripción de Asignaturas</h5>
                         <p class="card-text">Gestiona la inscripción de asignaturas de los estudiantes.</p>
-                        <a href="inscripcion.html" class="btn btn-primary">Ir a Inscripción</a>
+                        <a href="{% url 'inscripcionAsignatura' %}" class="btn btn-primary">Ir a Inscripción</a>
                     </div>
                 </div>
             </div>
@@ -50,7 +50,7 @@
                     <div class="card-body">
                         <h5 class="card-title">Asignación de Aulas</h5>
                         <p class="card-text">Asignación de aulas y docentes a los grupos.</p>
-                        <a href="/asignacion" class="btn btn-primary">Ir a Asignación</a>
+                        <a href="{% url 'inscripcionAula' %}" class="btn btn-primary">Ir a Asignación</a>
                     </div>
                 </div>
             </div>
@@ -59,16 +59,16 @@
                     <div class="card-body">
                         <h5 class="card-title">Consulta de Notas</h5>
                         <p class="card-text">Consulta las notas de los estudiantes.</p>
-                        <a href="consultasnotas.html" class="btn btn-primary">Ir a Consulta de Notas</a>
+                        <a href="{% url 'consultarNotas' %}" class="btn btn-primary">Ir a Consulta de Notas</a>
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="card">
+            <div class="col">
+                <div class="card h-100">
                     <div class="card-body">
-                        <h5 class="card-title">Otro Título</h5>
-                        <p class="card-text">Descripción de la nueva sección.</p>
-                        <a href="otra_seccion.html" class="btn btn-primary">Ir a Otra Sección</a>
+                        <h5 class="card-title">Docentes</h5>
+                        <p class="card-text">Información de los docentes.</p>
+                        <a href="{% url 'gestionDocentes' %}" class="btn btn-primary">Ir a Información de Docentes</a>
                     </div>
                 </div>
             </div>
@@ -80,15 +80,29 @@
 
     {% if messages %}
     {% for m in messages %}
-    <script>
-        Swal.fire({
-            title: "{% if m.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Error de inicio de sesión{% else %}¡Bienvenido!{% endif %}",
-            text: "{{ m }}",
-            icon: "{% if m.level == DEFAULT_MESSAGE_LEVELS.ERROR %}error{% elif m.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}success{% else %}info{% endif %}"
-        });
-    </script>
+        <script>
+            var message = "{{ m.message|escapejs }}";  // Escape para manejar caracteres especiales
+            var title = "";
+            var icon = "";
+
+            if (message === "Aula asignada con éxito.") {
+                title = "Aula asignada con éxito.";
+                icon = "success";
+            } else {
+                title = "{% if m.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Error de inicio de sesión{% else %}¡Bienvenido!{% endif %}";
+                icon = "{% if m.level == DEFAULT_MESSAGE_LEVELS.ERROR %}error{% elif m.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}success{% else %}info{% endif %}";
+            }
+
+            Swal.fire({
+                title: title,
+                text: message,
+                icon: icon
+            });
+        </script>
     {% endfor %}
-    {% endif %}
+{% endif %}
+
+
 </body>
 
 </html>

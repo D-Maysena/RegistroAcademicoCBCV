@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asignar Aula</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    {% load static %}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link href="{% static 'css/aulas.css' %}" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container mt-5 form-container">
+        <h1 class="text-center">Asignar Aula</h1>
+        <form action="{% url 'inscripcionAula' %}" method="POST">
+            {% csrf_token %}
+            {{form}}
+
+            <!-- Botón de envío -->
+            <button type="submit" class="btn btn-submit">Registrar Aula</button>
+        </form>
+    </div>
+    <footer class="text-center mt-4">
+        <p>&copy; Colegio Bautista Camino de Vida</p>
+    </footer>
+    {% if messages %}
+    {% for m in messages %}
+    <script>
+        Swal.fire({
+            title: "{% if m.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Error {% else %}Aula Asignada{% endif %}",
+            text: "{{ m }}",
+            icon: "{% if m.level == DEFAULT_MESSAGE_LEVELS.ERROR %}error{% elif m.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}success{% else %}info{% endif %}"
+        });
+        </script>
+    {% endfor %}
+    {% endif %}
+</body>
+
+</html>

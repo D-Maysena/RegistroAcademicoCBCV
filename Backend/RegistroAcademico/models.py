@@ -1,10 +1,3 @@
-# This is an auto-generated Django model module.
-# You'll have to do the following manually to clean this up:
-#   * Rearrange models' order
-#   * Make sure each model has one field with primary_key=True
-#   * Make sure each ForeignKey and OneToOneField has `on_delete` set to the desired behavior
-#   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
-# Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
 
 
@@ -138,7 +131,8 @@ class Inscribe(models.Model):
         return f"Inscribe: {self.codestudiante} - {self.codigoasignatura} - Fecha {self.fechainscripcion}"
 
 class Registronotas(models.Model):
-    codestudiante = models.ForeignKey(Estudiante, on_delete=models.CASCADE, db_column='CodEstudiante', primary_key=True)
+    IdRegistro = models.AutoField(primary_key=True)  # Primary key with auto-increment    
+    codestudiante = models.ForeignKey(Estudiante, on_delete=models.CASCADE, db_column='CodEstudiante')
     codigoasignatura = models.ForeignKey(Asignatura, on_delete=models.CASCADE, db_column='CodigoAsignatura')
     periodoacademico = models.CharField(db_column='PeriodoAcademico', max_length=20, db_collation='Modern_Spanish_CI_AS')
     parcial1 = models.DecimalField(db_column='Parcial1', max_digits=5, decimal_places=2, blank=True, null=True)
@@ -149,7 +143,7 @@ class Registronotas(models.Model):
 
     class Meta:
         db_table = 'RegistroNotas'
-        unique_together = (('codestudiante', 'codigoasignatura', 'periodoacademico'),)
+
 
     def __str__(self):
         return f"Registro Notas: {self.codestudiante} - {self.codigoasignatura}"

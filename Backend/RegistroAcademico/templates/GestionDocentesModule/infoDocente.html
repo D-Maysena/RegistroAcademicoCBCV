@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ver Docente</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> 
+    {% load static %}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link href="{% static 'css/info.css' %}" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>Detalles del Estudiante</h1>
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0">Información Básica</h5>
+            </div>
+            <div class="card-body">
+                <p><strong>Cédula de Docente:</strong> {{DocenteInfo.ceduladocente}}</p>
+                <p><strong>Nombre:</strong> {{DocenteInfo.nombre}} {{DocenteInfo.apellido}}</p>
+            </div>
+        </div>
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0">Información Adicional</h5>
+            </div>
+            <div class="card-body">
+                <p><strong>Teléfono:</strong> {{DocenteInfo.telefono}}</p>
+                <p><strong>Especialidad:</strong> {{DocenteInfo.especialidad}}</p>
+                <p><strong>Dirección:</strong> {{DocenteInfo.direccion}}</p>
+            </div>
+        </div>
+        <div class="text-center">
+            <a href="{% url 'agregarDocenteEditar' DocenteInfo.ceduladocente %}" class="btn"style="background-color: #1b059c; color: white;">Editar Docente</a>
+            <a href="{% url 'gestionDocentes' %}" class="btn btn-secondary"style="background-color: #1b059c; color: white;">Volver a Listado</a>
+        </div>
+    </div>
+    <footer>
+        <p>&copy; Colegio Bautista Camino de Vida</p>
+    </footer>
+
+</body>
+</html>

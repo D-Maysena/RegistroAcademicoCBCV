@@ -78,7 +78,7 @@ WSGI_APPLICATION = 'ColegioBautista.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'mssql',
-        'NAME': 'colegio1',  # Reemplaza con el nombre real de tu base de datos.
+        'NAME': 'colegio1', 
         'USER': '',  # Déjalo vacío ya que estás usando autenticación de Windows.
         'PASSWORD': '',  # Déjalo vacío por la autenticación de Windows.
         'HOST': 'MAYSENA\\MSSQLSERVER01',  # Servidor en formato 'HOST\\NOMBRE_INSTANCIA'.
@@ -120,6 +120,7 @@ USE_I18N = True
 
 USE_TZ = True
 
+LOGIN_URL = '/'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/

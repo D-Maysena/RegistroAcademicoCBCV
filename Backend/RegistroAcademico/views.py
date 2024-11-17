@@ -1,14 +1,21 @@
 from django.shortcuts import render, redirect
 from django.shortcuts import render, get_object_or_404, redirect
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate,login
 from django.http import HttpResponse
 from django.contrib import messages
-from .forms import SeleccionGrupoAsignatura, AgregarEstudianteForm
-from .models import Estudiante, Inscribe, Registronotas, Asignatura
+from .forms import SeleccionGrupoAsignatura, AgregarEstudianteForm, InscribirForm, AsignarAulaForm, AgregarDocenteForm
+from .models import Estudiante, Inscribe, Registronotas, Asignatura, Docente
 from django.http import JsonResponse
 from datetime import datetime
+from django.utils import timezone
+import json
+from django.contrib.auth.decorators import login_required
 
-def login(request):
+
+def loginView(request):
+  if request.user.is_authenticated:
+      return redirect('inicio')
+
   if request.method =="POST":
     username = request.POST.get('username')
     password = request.POST.get('password')
@@ -18,13 +25,18 @@ def login(request):
       return render(request, "./login.html")
     else:
       messages.success(request, "Inicio de sesión exitoso")
+      login(request, user)
       return redirect("inicio")
   else:   
     return render(request, "./login.html")
-  
-def inicio(request):
-  return render(request, "./inicio.html")
 
+@login_required
+def inicio(request):
+    print(request.user.is_authenticated)
+    print(request.user)
+    return render(request, "./inicio.html")
+
+@login_required
 def registrarNotas(request):
     form = SeleccionGrupoAsignatura()
     
@@ -116,7 +128,19 @@ def registrarNotas(request):
         return render(request, "./notas.html", {
             "form": form
         })
+@login_required       
+def AsignaturasAPI(request):
+    asignaturas =Asignatura.objects.all()
+   
+    asignaturas_data = [
+        {"codigoasignatura": asignatura.codigoasignatura, "nombre": f"{asignatura.nombre}",
+         "idasignatura": f"{asignatura.idasignatura}"}
+        for asignatura in asignaturas
+    ]
+    return JsonResponse(asignaturas_data, safe=False)
 
+
+@login_required       
 def cargarEstudiantes(request):
   grupo_id = request.GET.get('grupo', '').strip()
   if not grupo_id:
@@ -130,7 +154,8 @@ def cargarEstudiantes(request):
         for estudiante in estudiantes_grupo
     ]
   return JsonResponse(estudiantes_data, safe=False)
- 
+
+@login_required       
 def cargarAsignaturas(request):
   estudiante_id = request.GET.get('estudiante') 
   inscribe_estudiante =Inscribe.objects.filter(codestudiante=estudiante_id)
@@ -145,7 +170,8 @@ def cargarAsignaturas(request):
   ]
 
   return JsonResponse(asignaturas_data, safe=False)
- 
+
+@login_required       
 def cargarNotas(request):
   estudiante_id = request.GET.get('estudiante') 
   asignatura_id = request.GET.get('asignatura') 
@@ -163,7 +189,8 @@ def cargarNotas(request):
     for notas in notasEstudiante
   ]
   return JsonResponse(notas_data, safe=False)
-  
+
+@login_required         
 def EstudiantesAPI(request):
     estudiantes = Estudiante.objects.all()
     estudiantes_data = [
@@ -178,45 +205,168 @@ def EstudiantesAPI(request):
   ]
     return JsonResponse(estudiantes_data, safe=False)
 
+@login_required       
 def estudiantes(request):
-            return render(request, "./estudiante.html", {
+            return render(request, "./EstudiantesModule/estudiante.html", {
         })
 
-
+@login_required       
 def infoEstudiante(request, codestudiante):
-  print("eeee ")
   EstudianteInfo = Estudiante.objects.get(codestudiante=codestudiante)
-  return render(request, "./infoEstudiante.html", {
+  return render(request, "./EstudiantesModule/infoEstudiante.html", {
     "Estudiante": EstudianteInfo
         })
 
-
+@login_required       
 def agregarEstudiante(request, codestudiante=None):
     if codestudiante:
-        # Obtener al estudiante si se pasa el código
         estudiante = get_object_or_404(Estudiante, codestudiante=codestudiante)
         form = AgregarEstudianteForm(request.POST or None, instance=estudiante)
         
-        # Si el formulario es válido, guardamos los cambios
         if form.is_valid():
             form.save()
             messages.success(request, "Estudiante actualizado con éxito")
-            return redirect('estudiantes')  # Redirige a la lista de estudiantes después de guardar
+            return redirect('estudiantes') 
     else:
-        # Si no se pasa un codestudiante, es un formulario de creación
         form = AgregarEstudianteForm(request.POST or None)
         
         if request.method == "POST" and form.is_valid():
             form.save()
             messages.success(request, "Estudiante Registrado con éxito")
-            return redirect('estudiantes')  # Redirige a la lista de estudiantes después de guardar
-    return render(request, 'agregarEstudiante.html', {'form': form, 'codestudiante': codestudiante})
-  
+            return redirect('estudiantes')  
+    return render(request, './EstudiantesModule/agregarEstudiante.html', {'form': form, 'codestudiante': codestudiante})
+
+@login_required       
 def eliminarEstudiante(request, codestudiante):
     estudiante = get_object_or_404(Estudiante, codestudiante=codestudiante)
     
     if request.method == 'POST':
         estudiante.delete()
+        return JsonResponse({'success': True})
+
+    return JsonResponse({'success': False}, status=400)
+
+@login_required       
+def inscribirAsignaturas(request):
+    if request.method == 'POST':
+        form = InscribirForm(request.POST)
+        if form.is_valid():
+            inscripcion = form.save(commit=False)
+            inscripcion.fechainscripcion = timezone.now()
+            inscripcion.save()
+            messages.success(request, 'Asignatura inscrita con éxito.')
+            return redirect('inscripcionAsignatura')  # Redirigir a la misma vista después de la inscripción
+        else:
+            messages.error(request, 'Hubo un error al inscribir la asignatura.')
+    else:
+        form = InscribirForm()
+
+    return render(request, './InscripcionModule/inscripcion.html', {'form': form})
+
+@login_required       
+def inscribirAula(request):
+    if request.method == 'POST':
+        form = AsignarAulaForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Aula asignada con éxito.')
+            return render(request, "./inicio.html")
+        else:
+            # Acceder al error específico del campo `codigoaula` y pasarlo a mensajes
+            if 'codigoaula' in form.errors:
+                error_message = form.errors['codigoaula'][0]  # Obtener el primer error del campo `codigoaula`
+                messages.error(request, error_message)
+    else:
+        form = AsignarAulaForm()
+    form1 = AsignarAulaForm()
+    return render(request, './AulasModule/aulas.html', 
+                  {"form": form1})
+@login_required       
+def consultarNotas(request):
+    return render(request, './ConsultarNotasModule/consultasnotas.html')
+
+@login_required       
+def consultarNotasAPI(request):
+    if request.method == 'POST':
+        data = json.loads(request.body) 
+        codestudiante = data.get('codestudiante')
+        
+        try:
+            estudiante = Estudiante.objects.get(codestudiante=codestudiante)
+            notas = Registronotas.objects.filter(codestudiante=estudiante.codestudiante)
+            notas_data = [
+                {
+                    'asignatura': nota.codigoasignatura.nombre, 
+                    'parcial1': nota.parcial1,
+                    'parcial2': nota.parcial2,
+                    'parcial3': nota.parcial3,
+                    'parcial4': nota.parcial4,
+                    'nota_final': nota.notafinal,
+                }
+                for nota in notas
+            ]
+
+            return JsonResponse({'success': True, 'notas': notas_data})
+        
+        except Estudiante.DoesNotExist:
+            return JsonResponse({'success': False, 'message': 'El estudiante no existe'})
+    else:
+        return JsonResponse({'success': False, 'message': 'Método no permitido'})
+@login_required       
+def gestionDocentes(request):
+    return render(request, './GestionDocentesModule/docentes.html')
+
+
+@login_required       
+def DocentesAPI(request):
+    docentes = Docente.objects.all()
+    docentes_data = [
+    {
+        "ceduladocente": docente.ceduladocente, 
+        "nombre": docente.nombre,
+        "apellido": docente.apellido,
+        "direccion": docente.direccion,
+        "telefono": docente.telefono,
+        "especialidad": docente.especialidad
+
+    }
+        for docente in docentes
+    ]
+    return JsonResponse(docentes_data, safe=False)
+
+@login_required       
+def infoDocente(request, ceduladocente):
+  print("eeee ")
+  DocenteInfo = Docente.objects.get(ceduladocente=ceduladocente)
+  return render(request, "./GestionDocentesModule/infoDocente.html", {
+    "DocenteInfo": DocenteInfo
+        })
+
+@login_required       
+def agregarDocente(request, ceduladocente=None):
+    if ceduladocente:
+        docente = get_object_or_404(Docente, ceduladocente=ceduladocente)
+        form = AgregarDocenteForm(request.POST or None, instance=docente)
+        
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Docente actualizado con éxito")
+            return redirect('gestionDocentes') 
+    else:
+        form = AgregarDocenteForm(request.POST or None)
+        
+        if request.method == "POST" and form.is_valid():
+            form.save()
+            messages.success(request, "Docente Registrado con éxito")
+            return redirect('gestionDocentes')  
+    return render(request, './GestionDocentesModule/agregarDocente.html', {'form': form, 'ceduladocente': ceduladocente})
+
+@login_required        
+def eliminarDocente(request, ceduladocente):
+    docente = get_object_or_404(Docente, ceduladocente=ceduladocente)
+    
+    if request.method == 'POST':
+        docente.delete()
         return JsonResponse({'success': True})
 
     return JsonResponse({'success': False}, status=400)

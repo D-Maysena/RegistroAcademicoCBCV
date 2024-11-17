@@ -1,0 +1,62 @@
+/* Estilos Generales */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4; /* Fondo gris claro */
+    color: #333;
+}
+
+.container {
+    background-color: #fff; /* Fondo blanco */
+    border-radius: 8px;
+    padding: 30px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilo para los encabezados */
+h1 {
+    color: #1b059c; /* Título en azul */
+    font-size: 32px;
+    margin-bottom: 20px;
+}
+
+/* Estilo para los botones */
+.btn-primary {
+    background-color: #1b059c;
+    border-color: #1b059c;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #1a4ea6; /* Azul más claro al pasar el mouse */
+    border-color: #1a4ea6;
+}
+
+/* Estilo para los formularios */
+.form-group label {
+    color: #1b059c; /* Etiquetas en azul */
+    font-size: 18px;
+}
+
+.form-control {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 16px;
+}
+
+.form-control:focus {
+    border-color: #1b059c; /* Borde azul al enfocar */
+    box-shadow: 0 0 5px rgba(27, 5, 156, 0.5);
+}
+
+/* Estilo para los botones */
+.btn {
+    background-color: #1b059c;
+    border-color: #1b059c;
+    color: white;
+}
+
+.btn:hover {
+    background-color: #1a4ea6;
+    border-color: #1a4ea6;
+}

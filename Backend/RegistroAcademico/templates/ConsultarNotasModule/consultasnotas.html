@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consulta de Notas</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    {% load static %}
+    <link href="{% static 'css/consulta.css' %}" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
+<body>
+    <div class="container">
+        <h1 class="mt-5">Consulta de Notas</h1>
+
+        <form method="post" action="{% url 'consultarNotas' %}" id="consultaForm" >
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="codEstudiante">Código del Estudiante</label>
+                <input type="text" class="form-control" id="codEstudiante" name="codestudiante"
+                    placeholder="Ingrese su código de estudiante" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Consultar</button>
+        </form>
+
+        <hr>
+
+        <!-- Tabla de notas -->
+        <h3>Notas del Estudiante</h3>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Asignatura</th>
+                    <th>Parcial 1</th>
+                    <th>Parcial 2</th>
+                    <th>Parcial 3</th>
+                    <th>Parcial 4</th>
+                    <th>Nota Final</th>
+                </tr>
+            </thead>
+            <tbody id="notasTableBody" >
+                <tr>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Sistema Académico - Todos los derechos reservados</p>
+    </footer>
+
+    <script>
+        document.getElementById('consultaForm').addEventListener('submit', async function (event) {
+            event.preventDefault();
+            const codEstudiante = document.getElementById('codEstudiante').value;
+
+            fetch("/consultarNotasAPI/", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: JSON.stringify({ codestudiante: codEstudiante })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        const tbody = document.getElementById('notasTableBody');
+                        tbody.innerHTML = '';
+
+                        data.notas.forEach(nota => {
+                            const row = `
+                    <tr>
+                        <td>${nota.asignatura}</td>
+                        <td>${nota.parcial1}</td>
+                        <td>${nota.parcial2}</td>
+                        <td>${nota.parcial3}</td>
+                        <td>${nota.parcial4}</td>
+                        <td>${nota.nota_final}</td>
+                    </tr>
+                `;
+                            tbody.innerHTML += row;
+                        });
+                    } else {
+                        Swal.fire('Error', 'No se encontraron notas para el estudiante.', 'error');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    Swal.fire('Error', 'Ocurrió un error al consultar las notas.', 'error');
+                });
+        });
+    </script>
+</body>
+
+</html>
