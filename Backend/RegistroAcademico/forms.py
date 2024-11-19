@@ -66,8 +66,8 @@ class InscribirForm(forms.ModelForm):
             'codestudiante', 'codigoasignatura'
         ]
         labels = {
-            'codestudiante': "Código de Estudiante",
-            'codigoasignatura': "Código de Asignatura",
+            'codestudiante': "Nombre de Estudiante",
+            'codigoasignatura': "Nombre de Asignatura",
         }
         widgets = {
             'codestudiante': forms.Select(attrs={'class': 'form-control custom-select'}),
@@ -82,8 +82,8 @@ class AsignarAulaForm(forms.ModelForm):
         ]
         labels = {
             'codigoaula': "Código de Aula",
-            'codigogrupo': "Código de Grupo",
-            'codigoturno': "Código de Turno",
+            'codigogrupo': "Grupo",
+            'codigoturno': "Turno",
         }
         widgets = {
             'codigoaula': forms.Select(attrs={'class': 'form-control custom-select'}),

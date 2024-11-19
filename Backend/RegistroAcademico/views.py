@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.shortcuts import render, get_object_or_404, redirect
-from django.contrib.auth import authenticate,login
+from django.contrib.auth import authenticate,login,logout
 from django.http import HttpResponse
 from django.contrib import messages
 from .forms import SeleccionGrupoAsignatura, AgregarEstudianteForm, InscribirForm, AsignarAulaForm, AgregarDocenteForm
@@ -32,6 +32,7 @@ def loginView(request):
 
 @login_required
 def inicio(request):
+  #  logout(request)
     print(request.user.is_authenticated)
     print(request.user)
     return render(request, "./inicio.html")

@@ -18,7 +18,7 @@
                 {% for message in messages %}
                 <script>
                     Swal.fire({
-                        title: "{% if m.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Error al inscribir{% else %}Esudiante inscrito!{% endif %}",
+                        title: "{% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Error al inscribir{% else %}Esudiante inscrito!{% endif %}",
                         text: "{{ message }}",
                         icon: "{% if m.level == DEFAULT_MESSAGE_LEVELS.ERROR %}error{% elif m.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}success{% else %}info{% endif %}"
                     });
@@ -37,9 +37,9 @@
    
                 </div>
             {% endfor %}
+            <button type="submit" class="btn btn-submit" style="background-color: #1b059c; color: white;">Inscribir</button>
             <a type="button" class="btn" style="height: 48px;  background-color: #1b059c; color: white;" href="{% url 'inicio' %}" >Cancelar</a>
 
-            <button type="submit" class="btn btn-submit">Inscribir</button>
         </form>
     </div>
 
