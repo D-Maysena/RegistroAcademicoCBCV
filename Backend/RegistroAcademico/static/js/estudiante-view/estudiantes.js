@@ -31,9 +31,9 @@ async function getEstudiantes() {
             const finalUrlEditar = urlEditarEstud.replace('yepa', estudianteId);
             const finalUrlEliminar = urlEstudiantesEliminar.replace('yepa', estudianteId);
             accionesTd.innerHTML = `
-                <a class="btn btn-info btn-sm" href="${finalUrl}">Ver</a>
-                <a class="btn btn-warning btn-sm" href="${finalUrlEditar}">Editar</a>
-                <button class="btn btn-danger btn-sm" data-estudiante-id="${estudianteId}" id="eliminar-btn-${estudianteId}">Eliminar</button>
+                <a class="btn  btn-sm" style="background-color: #1b059c; color: white" href="${finalUrl}">Ver</a>
+                <a class="btn  btn-sm"style="background-color: #1b059c; color: white"  href="${finalUrlEditar}">Editar</a>
+                <button style="background-color: #1b059c; color: white" class="btn  btn-sm" data-estudiante-id="${estudianteId}" id="eliminar-btn-${estudianteId}">Eliminar</button>
             `;
             tr.appendChild(accionesTd);
             tbody.appendChild(tr);

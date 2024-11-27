@@ -50,7 +50,7 @@ document.getElementById("id_estudiante").addEventListener("change", async functi
 const crearInputSiNoHayNota = (container, nota, parcialNumber) => {
   container.innerHTML = ""; // Limpiar cualquier contenido previo
   const input = document.createElement("input");
-  input.type = "text";
+  input.type = "number";
   input.maxLength = "3";
   input.className = "input-nota";
   input.placeholder = "Sin nota";

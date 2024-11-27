@@ -12,31 +12,122 @@
         Docente
         </title>
     {% load static %}
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-   
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link href="{% static 'css/agregar_docente.css' %}" rel="stylesheet">
-    
+        
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <link href="{% static 'css/agregar_docente.css' %}" rel="stylesheet">
+        <style>
+        .card {
+            max-width: 900px;
+            margin: 20px auto;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .card-header {
+            position: relative;
+            text-align: center;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-bottom: 1px solid #ddd;
+        }
+        .card-header .logo {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            width: 60px;
+            height: auto;
+        }
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .card-content {
+            padding: 20px;
+        }
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .separator {
+            border-top: 1px solid #ddd;
+            margin: 10px 0;
+        }
+        .btn-submit {
+            background-color: #1b059c;
+            color: white;
+        }
+    </style>
 </head>
 <body>
     {% include 'layoutNav.html' %}
-    <div class="container">
-        <h1 class="mt-5">{% if ceduladocente %}Editar{% else %}Agregar{% endif %} Docente</h1>
-        <form action="{% if ceduladocente %}{% url 'agregarDocenteEditar' ceduladocente %}{% else %}{% url 'agregarDocente' %}{% endif %}" method="POST">
-            {% csrf_token %}
-            {% for field in form %}
-            <div class="form-group">
-                {{ field.label_tag }}
-                {{ field }}
-                <div class="text-danger">
-                    {{ field.errors }}
-                </div>
-            </div>
-        {% endfor %}
-            <button type="submit" class="btn btn-primary" style="background-color: #1b059c; color: white;" >{% if ceduladocente %}Guardar Cambios{% else %}Agregar Docente{% endif %}</button>
-            <a href="{% url 'inicio' %}" class="btn" style="background-color: #1b059c; color: white;">Regresar al Inicio</a>
-        </form>
-    </div>
+    <div class="card">
+        <div class="card-header">
+            <img src="{% static 'images/Logo.jpeg' %}" alt="Logo" class="logo">
+            <h1 class="mt-5" style="color: white;" >{% if ceduladocente %}Editar{% else %}Agregar{% endif %} Docente</h1>
+        </div>
+        <div class="card-content">
+            <form action="{% if ceduladocente %}{% url 'agregarDocenteEditar' ceduladocente %}{% else %}{% url 'agregarDocente' %}{% endif %}" method="POST">
+                {% csrf_token %}
    
+                <section>
+                    <h2 class="section-title">Información del Docente</h2>
+                    <div class="separator"></div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="cedula">Cédula</label>
+                            {{ form.ceduladocente }}
+
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="nombre">Nombre</label>
+                            {{ form.nombre }}
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="apellido">Apellido</label>
+                            {{ form.apellido }}
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="telefono">Teléfono</label>
+                            {{ form.telefono }}
+                            
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <h2 class="section-title">Información Adicional</h2>
+                    <div class="separator"></div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="direccion">Dirección</label>
+                            {{ form.direccion }}
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="especialidad">Especialidad</label>
+                            {{ form.especialidad }}
+
+                        </div>
+                    </div>
+                </section>
+
+                <button type="submit" class="btn btn-submit btn-block"  style="background-color: #1b059c; color: white;">{% if ceduladocente %}Guardar Cambios{% else %}Agregar Docente{% endif %}</button>
+                <a href="{% url 'inicio' %}" class="btn btn-block" style="background-color: #1b059c; color: white;">Regresar al Inicio</a>
+            </form>
+        </div>
+    </div>
+    
+    {% if messages %}
+        {% for m in messages %}
+            <script>
+                Swal.fire({
+                    title: "{% if m.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Error {% else %}Registrado{% endif %}",
+                    text: "{{ m }}",
+                    icon: "{% if m.level == DEFAULT_MESSAGE_LEVELS.ERROR %}error{% elif m.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}success{% else %}info{% endif %}"
+                });
+            </script>
+        {% endfor %}
+    {% endif %}
+    
 </body>
 </html>

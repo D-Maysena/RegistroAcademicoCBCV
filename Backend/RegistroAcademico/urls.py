@@ -8,6 +8,9 @@ urlpatterns = [
     path('estudiantes/',  views.estudiantes, name="estudiantes"),
     #Agregar uno nuevo
     path('agregarEstudiante/',  views.agregarEstudiante, name="agregarEstudiante"),
+    path('agregarEstudianteT/<str:tutor_id>',  views.agregarEstudiante, name="agregarEstudianteT"),
+    
+    path('agregar2/',  views.agregar2, name="agregar2"),
     #Editar info
     path('agregarEstudianteEditar/<str:codestudiante>',  views.agregarEstudiante, name="agregarEstudianteEditar"),
 
@@ -20,11 +23,22 @@ urlpatterns = [
     
     path('consultarNotas/',  views.consultarNotas, name="consultarNotas"),
     
+    
+    
+    path('asignarDocente/',  views.asignarDocente, name="asignarDocente"),
+    
+    path('horarios/',  views.horarios, name="horarios"),
+    
+    
+    
     path('gestionDocentes/',  views.gestionDocentes, name="gestionDocentes"),
     path('agregarDocente/',  views.agregarDocente, name="agregarDocente"),
     path('agregarDocenteEditar/<str:ceduladocente>',  views.agregarDocente, name="agregarDocenteEditar"),
     path('infoDocente/<str:ceduladocente>',  views.infoDocente, name="infoDocente"),
     path('eliminarDocente/<str:ceduladocente>',  views.eliminarDocente, name="eliminarDocente"),
+    
+    path('agregar2/<str:estudiantegregado>/', views.agregar2, name='agregar2'),
+    path('agregarTutor/', views.agregarTutor, name='agregarTutor'),
     
     
     #RUTAS API

@@ -1,48 +1,431 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>
-    {% if codeestudiante %}
-        Editar
-    {% else %}    
-    Agregar
-    {% endif %}
-    Estudiante
-</title>
+    <title>Matrícula</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/editar.css">
     {% load static %}
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <link href="{% static 'css/editar.css' %}" rel="stylesheet">
+
+    <style>
+        .card {
+            max-width: 900px;
+            margin: 20px auto;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            position: relative;
+            text-align: center;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .card-header .logo {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            width: 60px;
+            /* Ajusta el tamaño del logo */
+            height: auto;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .card-description {
+            color: #6c757d;
+        }
+
+        .card-content {
+            padding: 20px;
+        }
+
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        .separator {
+            border-top: 1px solid #ddd;
+            margin: 10px 0;
+        }
+
+        .btn-submit {
+            background-color: #1b059c;
+            color: white;
+        }
+    </style>
 </head>
+
 <body>
     {% include 'layoutNav.html' %}
+    <div class="card">
+        <div class="card-header">
+            <!-- Espacio para el logo -->
+            <img src="{% static 'images/Logo.jpeg' %}" alt="Logo" class="logo">
+            <h1 class="card-title" style="color: white;">Matrícula Estudiantil </h1>
+            <p class="card-description" style="color: white;">{% if codestudiante %}Editar{% else %}Complete la
+                información del estudiante para el proceso de matricula{% endif %} Estudiante</p>
+        </div>
+        <div class="card-content">
+            <form id="formulario"
+                action="{% if codestudiante %}{% url 'agregarEstudianteEditar' codestudiante %}{% else %}{% url 'agregarEstudiante' %}{% endif %}"
+                method="POST">
+                <section>
+                    {% csrf_token %}
 
-    <div class="container mt-5 form-container">
-        <h1 class="text-center">{% if codestudiante %}Editar{% else %}Agregar{% endif %} Estudiante</h1>
-        <form action="{% if codestudiante %}{% url 'agregarEstudianteEditar' codestudiante %}{% else %}{% url 'agregarEstudiante' %}{% endif %}" method="POST">
-            {% csrf_token %}
-            {% for field in form %}
-                <div class="form-group">
-                    {{ field.label_tag }}
-                    {{ field }}
-                    <div class="text-danger">
-                        {{ field.errors }}
+                    <h2 class="section-title">Información Personal</h2>
+                    <div class="separator"></div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="{{ form.codestudiante.id_for_label }}">Código de Estudiante</label>
+                            {{ form.codestudiante }}
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="{{ form.matricula.id_for_label }}">Número de Matrícula</label>
+
+
+
+                            {{ form.matricula }}
+
+
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="{{ form.nombre1.id_for_label }}">Primer Nombre</label>
+                            {{ form.nombre1 }}
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="{{ form.nombre2.id_for_label }}">Segundo Nombre</label>
+                            {{ form.nombre2 }}
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="{{ form.apellido1.id_for_label }}">Primer Apellido</label>
+                            {{ form.apellido1 }}
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="{{ form.apellido2.id_for_label }}">Segundo Apellido</label>
+                            {{ form.apellido2 }}
+                        </div>
                     </div>
-                </div>
-            {% endfor %}
-            <button type="submit" class="btn btn-submit" style="background-color: #1b059c; color: white;">{% if codestudiante %}Guardar Cambios{% else %}Agregar Estudiante{% endif %}</button>
-            <a type="button" class="btn btn-primary btn-block" style="margin-top: 30px;  background-color: #1b059c; color: white;" href="{% url 'estudiantes' %}" >Cancelar</a>
-                
-        </form>
+                </section>
+
+                <section>
+                    <h2 class="section-title">Datos de Nacimiento</h2>
+                    <div class="separator"></div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="{{ form.fechanac.id_for_label }}">Fecha de Nacimiento</label>
+                            {{ form.fechanac }}
+                        </div>
+
+
+                        {% if codestudiante %}
+
+                        {% endif %}
+
+                        {% comment %}
+                        <div class="form-group col-md-3">
+                            <label for="{{ form.edad.id_for_label }}">Edad</label>
+
+                            {{ form.edad }}
+                        </div>
+
+                        {% endcomment %}
+
+                        <div class="form-group col-md-3">
+                            <label for="{{ form.sexo.id_for_label }}">Sexo</label>
+                            {{ form.sexo }}
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <h2 class="section-title" id="info_contacto" >Información de Contacto</h2>
+                    <div class="separator"></div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="{{ form.cedula.id_for_label }}">Cédula</label>
+                            {{ form.cedulaalumno }}
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="{{ form.cedula.id_for_label }}">Dirección</label>
+                            {{ form.direccionalumno }}
+                        </div>
+
+                    </div>
+                </section>
+
+                <section>
+                    {% if not codestudiante %}
+                    <h2 class="section-title">Información Académica</h2>
+                    <div class="separator"></div>
+                    <div class="form-row">
+
+                        <div class="form-group col-md-6 ">
+                            <label for="">Agregar Tutor</label>
+                            <button type="button" class="btn btn-primary form-control"
+                                style="display: block; width: 290px; background-color: #1b059c;" data-toggle="modal"
+                                data-target="#modalFormularioTutor" id="guardar-tutor">
+                                Añadir Tutor
+                            </button>
+                        </div>
+                        
+                        <div class="form-group col-md-6">
+                            <label for="grado">Grado académico</label>
+                            <select name="grado" id="grado" class="form-control">
+                                <option value="Preescolar">Preescolar</option>
+                                <option value="Primer grado">Primer grado</option>
+                                <option value="Segundo grado">Segundo grado</option>
+                                <option value="Tercer grado">Tercer grado</option>
+                                <option value="Cuarto grado">Cuarto grado</option>
+                                <option value="Quinto grado">Quinto grado</option>
+                                <option value="Sexto grado">Sexto grado</option>
+                                <option value="Séptimo grado">Séptimo grado</option>
+                                <option value="Octavo grado">Octavo grado</option>
+                                <option value="Noveno grado">Noveno grado</option>
+                                <option value="Décimo grado">Décimo grado</option>
+                                <option value="Undécimo grado">Undécimo grado</option>
+                            </select>
+                        </div>
+                        
+                    </div>
+                </section>
+                {% endif %}
+
+                <button type="submit" class="btn btn-submit btn-block"
+                    style="background-color: #1b059c; color: white; margin-top: 20px;">
+                    {% if codestudiante %}Guardar Cambios{% else %}Agregar Estudiante{% endif %}</button>
+
+                <a type="button" class="btn btn-primary btn-block"
+                    style="margin-top: 10px;  background-color: #1b059c; color: white;"
+                    href="{% url 'estudiantes' %}">Cancelar</a>
+            </form>
+        </div>
     </div>
     <footer class="text-center mt-4">
         <p>&copy; Colegio Bautista Camino de Vida</p>
     </footer>
+
+
+    <!-- Modal para el formulario de tutor -->
+
+    <div class="modal fade" id="modalFormularioTutor" tabindex="-1" aria-labelledby="modalFormularioTutorLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalFormularioTutorLabel">Agregar Tutor</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="formularioTutor" method="post" action="">
+                        {% csrf_token %}
+                        <div class="container">
+                            <div class="row">
+                                <!-- Primera Fila -->
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="codigoTutor">Nombre del tutor</label>
+                                        {{ tutorform.nombretutor }}
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="cedulaTutor">Cédula del Tutor</label>
+                                        {{ tutorform.cedulatutor }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!-- Segunda Fila -->
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="nombreMadre">Nombre de la madre</label>
+                                        {{ tutorform.nombremadre }}
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="cedulaMadre">Cédula de la madre</label>
+                                        {{ tutorform.cedulamadre }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!-- Tercera Fila -->
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="nombrePadre">Nombre del padre</label>
+                                        {{ tutorform.nombrepadre }}
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="cedulaPadre">Cédula del padre</label>
+                                        {{ tutorform.cedulapadre }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary mt-3"
+                            style="background-color: #1b059c;">Guardar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Referencia a los campos
+            const fechaNacimiento = document.querySelector('#id_fechanac');
+            const campoCedula = document.querySelector('#id_cedulaalumno');
+            
+            // Función para calcular la edad y ocultar el campo de cédula si es menor de 16 años
+            function validarEdad() {
+                const fechaNacimientoValor = new Date(fechaNacimiento.value);
+                const hoy = new Date();
+                const edad = hoy.getFullYear() - fechaNacimientoValor.getFullYear();
+                const mes = hoy.getMonth() - fechaNacimientoValor.getMonth();
+                
+                // Si la fecha actual es antes del cumpleaños de este año, restamos un año a la edad
+                if (mes < 0 || (mes === 0 && hoy.getDate() < fechaNacimientoValor.getDate())) {
+                    edad--;
+                }
+                
+                // Si la edad es menor a 16 años, ocultamos el campo de cédula
+                if (edad < 16) {
+                    campoCedula.parentElement.style.display = 'none';
+                } else {
+                    campoCedula.parentElement.style.display = 'block';
+                }
+            }
+    
+            // Ejecutamos la validación al cargar la página si la fecha de nacimiento está llena
+            if (fechaNacimiento.value) {
+                validarEdad();
+            }
+    
+            // Ejecutamos la validación cuando cambie la fecha de nacimiento
+            fechaNacimiento.addEventListener('change', function() {
+                validarEdad();
+            });
+        });
+    </script>
+    
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            localStorage.clear();
+            const formularioTutor = document.getElementById("formularioTutor");
+
+            formularioTutor.addEventListener("submit", function (event) {
+                event.preventDefault(); // Prevenir el envío tradicional del formulario
+
+                // Obtener valores de los campos
+                const formData = {
+                    nombretutor: document.getElementById("id_nombretutor").value,
+                    cedulatutor: document.getElementById("id_cedulatutor").value,
+                    nombremadre: document.getElementById("id_nombremadre").value,
+                    cedulamadre: document.getElementById("id_cedulamadre").value,
+                    nombrepadre: document.getElementById("id_nombrepadre").value,
+                    cedulapadre: document.getElementById("id_cedulapadre").value
+                };
+
+                // Guardar los valores en el localStorage
+                Object.entries(formData).forEach(([key, value]) => {
+                    localStorage.setItem(key, value);
+                });
+
+                // Enviar los datos a la vista de agregarTutor
+                fetch("{% url 'agregarTutor' %}", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRFToken": "{{ csrf_token }}"
+                    },
+                    body: JSON.stringify(formData)
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+
+                            // Deshabilitar el botón si hay datos en localStorage
+                            const botonGuardar = document.getElementById("guardar-tutor");
+                            const claves = ["nombretutor", "cedulatutor", "nombremadre", "cedulamadre", "nombrepadre", "cedulapadre"];
+                            let hayValores = claves.some(clave => localStorage.getItem(clave));
+                            if (hayValores) {
+                                botonGuardar.disabled = true;  // Deshabilitar el botón si hay valores
+                                console.log("1")
+                            } else {
+                                console.log("2")
+                                botonGuardar.disabled = false; // Habilitar el botón si NO hay valores
+                            }
+
+                            // Agregar el valor booleano a los datos a enviar
+                            const isButtonEnabled = hayValores;  // Si hay valores, deshabilitar (isButtonEnabled = false)
+                            console.log(isButtonEnabled)
+                            fetch("{% url 'agregarEstudiante' %}", {
+                                method: "POST",
+                                headers: {
+                                    "Content-Type": "application/json",
+                                    "X-CSRFToken": "{{ csrf_token }}"
+                                },
+                                body: JSON.stringify({
+                                    is_button_enabled: isButtonEnabled,
+
+                                })
+                            });
+
+                        } 
+                    })
+                    .catch(error => {
+                        console.error("Error de red:", error);
+                    });
+            });
+        });
+    </script>
+
+
+
+
+    <script>
+        document.getElementById('formulario').addEventListener('submit', function (event) {
+            event.preventDefault();
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: '¿Quieres guardar?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Sí, guardar',
+                cancelButtonText: 'No, cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    this.submit();
+                }
+            });
+        });
+    </script>
+
     {% if messages %}
     {% for m in messages %}
     <script>
+
         Swal.fire({
             title: "{% if m.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Error {% else %}Registrado{% endif %}",
             text: "{{ m }}",
@@ -51,5 +434,22 @@
     </script>
     {% endfor %}
     {% endif %}
+    <script src="{% static 'js/Matricula.js' %}"></script>
+    <!-- Scripts necesarios para Bootstrap -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        document.getElementById('formularioTutor').addEventListener('submit', function (event) {
+
+            $('#modalFormularioTutor').modal('hide');
+        });
+    </script>
+
+
+
+
+
 </body>
+
 </html>

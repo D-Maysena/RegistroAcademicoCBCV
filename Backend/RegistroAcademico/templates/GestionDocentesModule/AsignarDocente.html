@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asignación de Docentes</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    {% load static %}
+    <link href="{% static 'css/asignacion_docentes.css' %}" rel="stylesheet">
+
+</head>
+<body>
+    {% include 'layoutNav.html' %}
+
+    <div class="container mt-5">
+        <h1>Asignar Docente a un Grupo</h1>
+
+        <form action="{% url 'asignarDocente' %}" method="POST">
+            {% csrf_token %}
+            <div class="form-group mb-4">
+                <label for="cedulaDocente">Seleccione el Docente</label>
+                {{form.ceduladocente}}
+            </div>
+
+            <div class="form-group mb-4">
+                <label for="codigoGrupo">Seleccione el Grupo</label>
+                {{form.codigogrupo}}
+            </div>
+
+            <div class="form-buttons">
+                <button type="submit" class="btn" style="background-color: #1b059c; color: white;">Asignar Docente</button>
+                <br>
+                <br>
+                <a type="button" class="btn btn-block" style="background-color: #1b059c; color: white;" href="{% url 'inicio' %}">Cancelar</a>
+            </div>
+        </form>
+    </div>
+    {% if messages %}
+    {% for m in messages %}
+        <script>
+            Swal.fire({
+                title: "{% if m.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Error {% else %}Registrado{% endif %}",
+                text: "{{ m }}",
+                icon: "{% if m.level == DEFAULT_MESSAGE_LEVELS.ERROR %}error{% elif m.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}success{% else %}info{% endif %}"
+            });
+        </script>
+    {% endfor %}
+{% endif %}
+</body>
+</html>

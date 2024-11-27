@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matrícula</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/editar.css">
+    {% load static %}
+
+    <style>
+        .card {
+            max-width: 900px;
+            margin: 20px auto;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            position: relative;
+            text-align: center;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .card-header .logo {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            width: 60px;
+            /* Ajusta el tamaño del logo */
+            height: auto;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .card-description {
+            color: #6c757d;
+        }
+
+        .card-content {
+            padding: 20px;
+        }
+
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        .separator {
+            border-top: 1px solid #ddd;
+            margin: 10px 0;
+        }
+
+        .btn-submit {
+            background-color: #1b059c;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    {% include 'layoutNav.html' %}
+    <div class="card">
+        <div class="card-header">
+            <!-- Espacio para el logo -->
+            <img src="{% static 'images/Logo.jpeg' %}" alt="Logo" class="logo">
+            <h1 class="card-title" style="color: white;">Matrícula Estudiantil </h1>
+            <p class="card-description" style="color: white;">Complete la
+                información del estudiante para el proceso de matricula</p>
+        </div>
+        <div class="card-content">
+            <form action="{% url 'agregar2' estudiantegregado=codestudiante %}" method="POST" id="formulario" >
+
+                <section>
+                    {% csrf_token %}
+
+                    <h2 class="section-title">Información Académica</h2>
+                    <div class="separator"></div>
+                    <div class="form-row">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title" style="width: 800px;">Horario</h3>
+                            </div>
+                            <div class="card-body">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Grupo</th>
+                                            <th>Grado académico</th>
+                                            <th>Aula</th>
+                                            <th>Turno</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>{{ grupo.nombre }} </td>
+                                            <td>{{ grupo.nivelacademico }}</td>
+                                            <td>{{aula.codigoaula}}</td>
+                                            <td>{{aula.codigoturno}}</td>
+                                        </tr>
+
+
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title" style="width: 800px;">Asignaturas</h3>
+                            </div>
+                            <div class="card-body">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+
+                                            <th>Código de Asignatura</th>
+                                            <th>Nombre</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        {% for asignatura in asignaturas %}
+                                        <tr>
+
+                                            <td>{{ asignatura.idasignatura }}</td>
+                                            <td>{{ asignatura.nombre }}</td>
+                                        </tr>
+
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </section>
+
+
+                <button type="submit" class="btn btn-submit btn-block" style="background-color: #1b059c; color: white;"
+                    onclick="confirmarGuardar()">
+                    Guardar </button>
+
+                <a type="button" class="btn btn-primary btn-block"
+                    style="margin-top: 10px;  background-color: #1b059c; color: white;"
+                    href="{% url 'estudiantes' %}">Cancelar</a>
+            </form>
+        </div>
+    </div>
+    <footer class="text-center mt-4">
+        <p>&copy; Colegio Bautista Camino de Vida</p>
+    </footer>
+
+
+    <script>
+        document.getElementById('formulario').addEventListener('submit', function (event) {
+            event.preventDefault();
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: '¿Quieres realizar la matrícula?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Sí, guardar',
+                cancelButtonText: 'No, cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    this.submit();
+                }
+            });
+        });
+    </script>
+
+    {% if messages %}
+    {% for m in messages %}
+    <script>
+
+        Swal.fire({
+            title: "{% if m.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Error {% else %}Registrado{% endif %}",
+            text: "{{ m }}",
+            icon: "{% if m.level == DEFAULT_MESSAGE_LEVELS.ERROR %}error{% elif m.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}success{% else %}info{% endif %}"
+        });
+    </script>
+    {% endfor %}
+    {% endif %}
+    <script src="{% static 'js/Matricula.js' %}"></script>
+</body>
+
+</html>

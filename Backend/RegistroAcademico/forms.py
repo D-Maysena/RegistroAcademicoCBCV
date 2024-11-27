@@ -1,5 +1,5 @@
 from django import forms
-from .models import Asignatura, Grupo, Estudiante, Inscribe, Aula, Asignacionaula, Turno, Docente
+from .models import Asignatura, Grupo, Estudiante, Inscribe, Aula, Asignacionaula, Turno, Docente, Tutor, Asignaciondocente
 
 class SeleccionGrupoAsignatura(forms.Form):
     grupo = forms.ModelChoiceField(
@@ -15,6 +15,23 @@ class SeleccionGrupoAsignatura(forms.Form):
         label="Seleccione la asignatura",
         widget=forms.Select(attrs={'class': 'form-control'}))
     
+class AsignarDocenteForm(forms.ModelForm):
+    class Meta:
+        model = Asignaciondocente
+    
+        fields = [
+            'codigogrupo', 'ceduladocente'
+            
+        ]
+    ceduladocente = forms.ModelChoiceField(
+        queryset=Docente.objects.all(), 
+        label="Seleccione el Docente",
+        widget=forms.Select(attrs={'class': 'form-control'}))
+    codigogrupo = forms.ModelChoiceField(
+        queryset=Grupo.objects.all(),
+        label="Selecciona el grupo",
+        widget=forms.Select(attrs={'class': 'form-control'}))
+    
 class AgregarEstudianteForm(forms.ModelForm):
     
     class Meta:
@@ -26,7 +43,9 @@ class AgregarEstudianteForm(forms.ModelForm):
         fields = [
             'codestudiante', 'nombre1', 'nombre2', 'apellido1', 'apellido2',
             'fechanac', 'sexo', 'cedulaalumno', 'direccionalumno', 'matricula', 
-            'codigogrupo', 'codigotutor'
+            'codigogrupo', 
+            'codigotutor',
+            
         ]
         
         labels = {
@@ -40,8 +59,8 @@ class AgregarEstudianteForm(forms.ModelForm):
             'cedulaalumno': "Cédula del Alummno ",
             'direccionalumno': "Dirección",
             'matricula': "Matricula",
-            'codigogrupo': "Código de Grupo",
-            'codigotutor': "Código de Tutor",
+            #'codigogrupo': "Código de Grupo",
+            #'codigotutor': "Código de Tutor",
         }
         
         widgets = {
@@ -54,9 +73,9 @@ class AgregarEstudianteForm(forms.ModelForm):
             'sexo': forms.Select(choices=SEXO_CHOICES, attrs={'class': 'form-control'}),
             'cedulaalumno': forms.TextInput(attrs={'class': 'form-control'}),
             'direccionalumno': forms.TextInput(attrs={'class': 'form-control'}),
-            'matricula': forms.TextInput(attrs={'class': 'form-control'}),
-            'codigogrupo': forms.Select(attrs={'class': 'form-control'}),
-            'codigotutor': forms.TextInput(attrs={'class': 'form-control'})
+            'matricula': forms.TextInput(attrs={'class': 'form-control','id': 'numero-matricula', 'readonly': 'readonly' } ),
+            #'codigogrupo': forms.Select(attrs={'class': 'form-control'}),
+            #'codigotutor': forms.TextInput(attrs={'class': 'form-control'})
         }
         
 class InscribirForm(forms.ModelForm):
@@ -89,6 +108,31 @@ class AsignarAulaForm(forms.ModelForm):
             'codigoaula': forms.Select(attrs={'class': 'form-control custom-select'}),
             'codigogrupo': forms.Select(attrs={'class': 'form-control custom-select'}),
             'codigoturno': forms.Select(attrs={'class': 'form-control custom-select'}),
+        }
+        
+        
+class TutorForm(forms.ModelForm):
+    class Meta:
+        model = Tutor
+        fields = [
+            'nombretutor', 'cedulatutor', 'nombremadre', 'cedulamadre', 'nombrepadre', 'cedulapadre'
+        ]
+        labels = {
+            'nombretutor': "Ingrese el nombre del tutor",
+            'cedulatutor': "Ingrese la cédula del tutor",
+            'nombremadre': "Ingrese el nombre de la madre",
+            'cedulamadre': "Ingrese la cédula de la madre",
+            'nombrepadre': "Ingrese el nombre del padre",
+            'cedulapadre': "Ingrese la cédula del padre",
+
+        }
+        widgets = {
+            'nombretutor': forms.TextInput(attrs={'class': 'form-control'}),
+            'cedulatutor': forms.TextInput(attrs={'class': 'form-control'}),
+            'nombremadre': forms.TextInput(attrs={'class': 'form-control'}),
+            'cedulamadre': forms.TextInput(attrs={'class': 'form-control'}),
+            'nombrepadre': forms.TextInput(attrs={'class': 'form-control'}),
+            'cedulapadre': forms.TextInput(attrs={'class': 'form-control'}),
         }
         
         

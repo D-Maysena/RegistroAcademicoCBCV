@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        {% if codeestudiante %}
+        Editar
+        {% else %}
+        Agregar
+        {% endif %}
+        Estudiante
+    </title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    {% load static %}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link href="{% static 'css/editar.css' %}" rel="stylesheet">
+    <style>
+        .card {
+            max-width: 900px;
+            margin: 20px auto;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .card-header {
+            position: relative;
+            text-align: center;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-bottom: 1px solid #ddd;
+        }
+        .card-header .logo {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            width: 60px; /* Ajusta el tamaño del logo */
+            height: auto;
+        }
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .card-description {
+            color: #6c757d;
+        }
+        .card-content {
+            padding: 20px;
+        }
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+        .separator {
+            border-top: 1px solid #ddd;
+            margin: 10px 0;
+        }
+        .btn-submit {
+            background-color: #1b059c;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    {% include 'layoutNav.html' %}
+    <div class="container mt-5 form-container">
+        <h1 class="text-center">{% if codestudiante %}Editar{% else %}Complete la información del estudiante para el proceso de matricula{% endif %} Estudiante</h1>
+        <h2>1.Matricula</h2>
+        <form
+            action="{% if codestudiante %}{% url 'agregarEstudianteEditar' codestudinte %}{% else %}{% url 'agregarEstudiante' %}{% endif %}"
+            method="POST">
+            
+            {% csrf_token %}
+            {% for field in form %}
+            <div class="form-group">
+                {{ field.label_tag }}
+                {{ field }}
+                <div class="text-danger">
+                    {{ field.errors }}
+                </div>
+            </div>
+            {% endfor %}
+
+
+            <button type="submit" class="btn btn-submit" style="background-color: #1b059c; color: white;">
+                {% if codestudiante %}Guardar Cambios{% else %}Agregar Estudiante{% endif %}</button>
+
+            <a type="button" class="btn btn-primary btn-block"
+                style="margin-top: 30px;  background-color: #1b059c; color: white;"
+                href="{% url 'estudiantes' %}">Cancelar</a>
+
+        </form>
+    </div>
+    </div>
+    <footer class="text-center mt-4">
+        <p>&copy; Colegio Bautista Camino de Vida</p>
+    </footer>
+
+
+    {% if messages %}
+    {% for m in messages %}
+    <script>
+
+        Swal.fire({
+            title: "{% if m.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Error {% else %}Registrado{% endif %}",
+            text: "{{ m }}",
+            icon: "{% if m.level == DEFAULT_MESSAGE_LEVELS.ERROR %}error{% elif m.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}success{% else %}info{% endif %}"
+        });
+    </script>
+    {% endfor %}
+    {% endif %}
+</body>
+
+</html>

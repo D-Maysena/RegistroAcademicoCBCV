@@ -1,0 +1,68 @@
+/* archivo: css/asignacion.css */
+body {
+    background-color: #f8f9fa;
+}
+
+.container {
+    max-width: 700px;
+    margin-top: 50px;
+    padding: 30px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+h1 {
+    font-size: 28px;
+    color: #1b059c;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+form .form-group {
+    margin-bottom: 30px;
+}
+
+label {
+    font-weight: bold;
+    color: #1b059c;
+    font-size: 16px;
+}
+
+select.form-control {
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    padding: 12px;
+    font-size: 16px;
+    color: #495057; /* Color del texto */
+    background-color: #ffffff; /* Fondo blanco */
+    transition: border-color 0.3s ease-in-out; /* Transición suave para el borde */
+}
+
+/* Estilo específico para el texto por defecto dentro de las listas desplegables */
+select.form-control option[disabled] {
+    color: #6c757d; /* Gris suave para el texto de selección */
+    font-style: italic;
+}
+
+/* Estilo cuando el campo tiene el foco */
+select.form-control:focus {
+    border-color: #1b059c; /* Borde azul cuando el campo es seleccionado */
+    box-shadow: 0 0 8px rgba(27, 5, 156, 0.5); /* Sombra azul suave */
+}
+
+button {
+    background-color: #1b059c;
+    color: white;
+    border: none;
+    padding: 12px 15px;
+    width: 100%;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px;
+    transition: background-color 0.3s ease; /* Transición suave para el fondo del botón */
+}
+
+button:hover {
+    background-color: #15038d;
+}

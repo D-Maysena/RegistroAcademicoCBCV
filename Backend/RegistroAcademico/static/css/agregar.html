@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matrícula</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/editar.css">
+    <style>
+        .card {
+            max-width: 900px;
+            margin: 20px auto;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .card-header {
+            position: relative;
+            text-align: center;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-bottom: 1px solid #ddd;
+        }
+        .card-header .logo {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            width: 60px; /* Ajusta el tamaño del logo */
+            height: auto;
+        }
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .card-description {
+            color: #6c757d;
+        }
+        .card-content {
+            padding: 20px;
+        }
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+        .separator {
+            border-top: 1px solid #ddd;
+            margin: 10px 0;
+        }
+        .btn-submit {
+            background-color: #1b059c;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    {% include 'layoutNav.html' %}
+    <div class="card">
+        <div class="card-header">
+            <!-- Espacio para el logo -->
+            <img src="images/Logo.jpeg" alt="Logo" class="logo">
+            <h1 class="card-title">Matrícula Estudiantil </h1>
+            <p class="card-description">{% if codestudiante %}Editar{% else %}Complete la información del estudiante para el proceso de matricula{% endif %} Estudiante</p>
+        </div>
+        <div class="card-content">
+            <form action="{% if codestudiante %}{% url 'agregarEstudianteEditar' codestudinte %}{% else %}{% url 'agregarEstudiante' %}{% endif %}"method="POST">
+                <section>
+            {% csrf_token %}
+
+                    <h2 class="section-title">Información Personal</h2>
+                    <div class="separator"></div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="codEstudiante">Código de Estudiante</label>
+                            <input type="text" class="form-control" id="codEstudiante" name="codEstudiante" placeholder="Ingrese el código" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="matricula">Número de Matrícula</label>
+                            <!-- Lista desplegable para matrícula -->
+                            <select class="form-control" id="matricula" name="matricula" required>
+                                <option value="aprobada">Aprobada</option>
+                                <option value="no_aprobada">No Aprobada</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="nombre1">Primer Nombre</label>
+                            <input type="text" class="form-control" id="nombre1" name="nombre1" placeholder="Ingrese el primer nombre" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="nombre2">Segundo Nombre</label>
+                            <input type="text" class="form-control" id="nombre2" name="nombre2" placeholder="Ingrese el segundo nombre">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="apellido1">Primer Apellido</label>
+                            <input type="text" class="form-control" id="apellido1" name="apellido1" placeholder="Ingrese el primer apellido" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="apellido2">Segundo Apellido</label>
+                            <input type="text" class="form-control" id="apellido2" name="apellido2" placeholder="Ingrese el segundo apellido">
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <h2 class="section-title">Datos de Nacimiento</h2>
+                    <div class="separator"></div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="fechaNac">Fecha de Nacimiento</label>
+                            <input type="date" class="form-control" id="fechaNac" name="fechaNac" required>
+                        </div>
+                       
+                       {% comment %}
+                        
+                       <div class="form-group col-md-3">
+                          <label for="edad">Edad</label>
+                          <input type="number" class="form-control" id="edad" name="edad" required>
+                      </div>
+                       {% endcomment %}
+                        <div class="form-group col-md-3">
+                            <label for="sexo">Sexo</label>
+                            <select class="form-control" id="sexo" name="sexo" required>
+                                <option value="M">Masculino</option>
+                                <option value="F">Femenino</option>
+                            </select>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <h2 class="section-title">Información de Contacto</h2>
+                    <div class="separator"></div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="cedula">Cédula</label>
+                            <input type="text" class="form-control" id="cedula" name="cedula" placeholder="Ingrese la cédula del alumno" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="direccionAlumno">Dirección</label>
+                            <input type="text" class="form-control" id="direccionAlumno" name="direccionAlumno" placeholder="Ingrese la dirección del alumno" required>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <h2 class="section-title">Información Académica</h2>
+                    <div class="separator"></div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="codigoGrupo">Grupo</label>
+                            <select class="form-control" id="codigoGrupo" name="codigoGrupo" required>
+                                <option value="A">Grupo A</option>
+                                <option value="B">Grupo B</option>
+                                <option value="C">Grupo C</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="codigoTutor">Código de Tutor</label>
+                            <input type="text" class="form-control" id="codigoTutor" name="codigoTutor" placeholder="Ingrese el código de tutor">
+                        </div>
+                    </div>
+                </section>
+
+                <button type="submit" class="btn btn-submit btn-block">Enviar Matrícula</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
