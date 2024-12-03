@@ -53,31 +53,13 @@ def registrarNotas(request):
             notafinal = request.POST.get('notafinal', '').strip()
            
             # Convertir a int solo si no están vacíos
-            if parcial1:
-                parcial1 = float(parcial1)
-            else:
-                parcial1 = None
+            parcial1 = float(parcial1) if parcial1 else 0
+            parcial2 = float(parcial2) if parcial2 else 0
+            parcial3 = float(parcial3) if parcial3 else 0
+            parcial4 = float(parcial4) if parcial4 else 0
 
-            if parcial2:
-                parcial2 = float(parcial2)
-            else:
-                parcial2 = None
-
-            if parcial3:
-                parcial3 = float(parcial3)
-            else:
-                parcial3 = None
-
-            if parcial4:
-                parcial4 = float(parcial4)
-            else:
-                parcial4 = None
-
-            if notafinal:
-                notafinal = float(parcial1 +   parcial2 + parcial3 + parcial4) / 4
-            else:
-                notafinal = float(parcial1 +   parcial2 + parcial3 + parcial4) / 4
-                
+        # Calcular la nota final promediando los parciales
+            notafinal = (parcial1 + parcial2 + parcial3 + parcial4) / 4
 
             print(parcial1, parcial2, parcial3, parcial4, notafinal)
             

@@ -14,6 +14,7 @@
 
     <div class="container mt-5">
         <h1>Estudiantes </h1>
+        <input type="text" id="searchInput" placeholder="Buscar estudiante" class="form-control mb-3">
         <a class="btn btn-primary mb-3" href="{% url 'agregarEstudiante' %}" style="background-color: #1b059c; color: white;" >Matricular Estudiante</a>
         <table class="table table-striped">
             <thead>
@@ -33,6 +34,24 @@
     <footer>
         <p>&copy; Colegio Bautista Camino de Vida</p>
     </footer>
+    <script>
+        document.getElementById('searchInput').addEventListener('keyup', function() {
+            const query = this.value.toLowerCase();
+            const rows = document.querySelectorAll('#container-estudiantes tr');
+    
+            rows.forEach(row => {
+                const nombreCompleto = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
+                const cedula = row.querySelector('td:nth-child(3)').textContent.toLowerCase();
+                const grupo = row.querySelector('td:nth-child(4)').textContent.toLowerCase();
+    
+                if (nombreCompleto.includes(query) || cedula.includes(query) || grupo.includes(query)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+    </script>
     {% if messages %}
     {% for m in messages %}
     <script>
